@@ -7,6 +7,7 @@ Contents:
 * Required Installations
   * Python 2.7
   * PyGame (and all its dependencies)
+  * pycontract
 * Overview - How to use this Framework
   * individual.py
   * population.py
@@ -41,6 +42,7 @@ Contents:
 * GA.py
   * runTSPGA(kwargs)
   * runGA(kwargs)
+  * run(kwargs)
 * settings.py
   * Fields
 * visualization.py

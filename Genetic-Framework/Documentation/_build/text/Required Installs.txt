@@ -15,3 +15,10 @@ PyGame (and all its dependencies)
 =================================
 
 Used in visualization of the included TSP solver
+
+
+pycontract
+==========
+
+Used for contract checking (only when testmode is True; see the
+documentation for settings.py)

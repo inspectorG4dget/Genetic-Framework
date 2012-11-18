@@ -1,0 +1,4 @@
+*.pyc
+*PKG-INFO
+*MANIFEST.in
+Pyvolution*.tar.gz

@@ -13,7 +13,7 @@
 
 
 \title{Genetic Documentation}
-\date{October 28, 2012}
+\date{November 18, 2012}
 \release{1.0}
 \author{Ashwin Panchapakesan}
 \newcommand{\sphinxlogo}{}
@@ -132,6 +132,11 @@ It can easily be transformed into python 2.6 compliant code. Most of the incompa
 \section{PyGame (and all its dependencies)}
 \label{Required Installs:pygame-and-all-its-dependencies}
 Used in visualization of the included TSP solver
+
+
+\section{pycontract}
+\label{Required Installs:pycontract}
+Used for contract checking (only when testmode is True; see the documentation for settings.py)
 
 
 \chapter{Overview - How to use this Framework}
@@ -548,6 +553,11 @@ Run a GA that solves the Traveling Salesman Problem with the settings generated 
 Run a simple fitness-maximizing GA that solves any applicable problem. At the time of writing this document, it was applied to the One-Max problem
 
 
+\section{run(kwargs)}
+\label{GA.py:run-kwargs}
+This is the main driver function that runs the required evolutionary algorithm. But before it does that, it also checks the sanity and makes sure to import PyContract if required (as indicated by the \code{testmode} flag)
+
+
 \chapter{settings.py}
 \label{settings.py:settings-py}\label{settings.py::doc}
 Since the evolutionary framework requires several settings for each of the modules being used, a separate file is used to specify the correct settings for a run of an evolution.
@@ -558,6 +568,11 @@ This file contains functions, each of which generates a specific set of settings
 \section{Fields}
 \label{settings.py:fields}
 All fields have to be set with some value or other. There are no default values in this framework, by design
+
+
+\subsection{algorithm}
+\label{settings.py:algorithm}
+The evolutionary algorithm to be run (defined in GA.py)
 
 
 \subsection{testmode}
