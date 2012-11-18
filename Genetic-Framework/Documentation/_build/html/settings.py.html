@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>settings.py &mdash; Genetic 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Genetic 1.0 documentation" href="index.html" />
+    <link rel="next" title="visualization.py" href="visualization.py.html" />
+    <link rel="prev" title="GA.py" href="GA.py.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="visualization.py.html" title="visualization.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="GA.py.html" title="GA.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Genetic 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="settings-py">
+<h1>settings.py<a class="headerlink" href="#settings-py" title="Permalink to this headline">¶</a></h1>
+<p>Since the evolutionary framework requires several settings for each of the modules being used, a separate file is used to specify the correct settings for a run of an evolution.</p>
+<p>This file contains functions, each of which generates a specific set of settings to run evolution on a specific problem</p>
+<div class="section" id="fields">
+<h2>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h2>
+<p>All fields have to be set with some value or other. There are no default values in this framework, by design</p>
+<div class="section" id="algorithm">
+<h3>algorithm<a class="headerlink" href="#algorithm" title="Permalink to this headline">¶</a></h3>
+<p>The evolutionary algorithm to be run (defined in GA.py)</p>
+</div>
+<div class="section" id="testmode">
+<h3>testmode<a class="headerlink" href="#testmode" title="Permalink to this headline">¶</a></h3>
+<p>Set this to true to run in-function assert statements that check contracts. False otherwise</p>
+</div>
+<div class="section" id="maxgens">
+<h3>maxGens<a class="headerlink" href="#maxgens" title="Permalink to this headline">¶</a></h3>
+<p>The maximum number of generations for which evolution shall be run after which it will be stopped even if an optimal solution has not yet been discovered</p>
+</div>
+<div class="section" id="targetscore">
+<h3>targetscore<a class="headerlink" href="#targetscore" title="Permalink to this headline">¶</a></h3>
+<p>The known optimal fitness score of the problem. Setting this to <tt class="docutils literal"><span class="pre">None</span></tt> or <tt class="docutils literal"><span class="pre">''</span></tt> will simulate negative and positive infinity, respectively</p>
+</div>
+<div class="section" id="popsize">
+<h3>popsize<a class="headerlink" href="#popsize" title="Permalink to this headline">¶</a></h3>
+<p>The number of individuals in the population during evolution</p>
+</div>
+<div class="section" id="numcrossovers">
+<h3>numCrossovers<a class="headerlink" href="#numcrossovers" title="Permalink to this headline">¶</a></h3>
+<p>The number of crossover operations per generation</p>
+</div>
+<div class="section" id="scores">
+<h3>SCORES<a class="headerlink" href="#scores" title="Permalink to this headline">¶</a></h3>
+<p>A dictionary that remembers the fitness values of all individuals. This is used as an optimization. Usually, this is an empty dictionary
+This can be deactivated by changing <tt class="docutils literal"><span class="pre">Individual.__hash__</span></tt> to something that will be unique to each individual, regardless of genetic makeup</p>
+</div>
+<div class="section" id="genfunc">
+<h3>genfunc<a class="headerlink" href="#genfunc" title="Permalink to this headline">¶</a></h3>
+<p>The function that generates the initial population</p>
+</div>
+<div class="section" id="genparams">
+<h3>genparams<a class="headerlink" href="#genparams" title="Permalink to this headline">¶</a></h3>
+<p>A tuple containing the parameters to send to <tt class="docutils literal"><span class="pre">genfunc</span></tt> in the correct order</p>
+</div>
+<div class="section" id="scorefunc">
+<h3>scorefunc<a class="headerlink" href="#scorefunc" title="Permalink to this headline">¶</a></h3>
+<p>The function that returns the fitness evaluation of an individual. By default this is set to <tt class="docutils literal"><span class="pre">fitness.score</span></tt>.
+.. note:</p>
+<div class="highlight-python"><pre>It is advisable to leave this as ``fitness.score``, especially for multi-chromosome individuals.</pre>
+</div>
+</div>
+<div class="section" id="scoreparams">
+<h3>scoreparams<a class="headerlink" href="#scoreparams" title="Permalink to this headline">¶</a></h3>
+<p>This is a 3-tuple</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="13%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Index</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>list of functions</td>
+<td>the <cite>i</cite> th function listed here will be used to compute the fitness of the <cite>i</cite> th chromosome of the individuals</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>list of tuples</td>
+<td>the <cite>i</cite> th tuple listed here contains the parameters (in the correct order) for the <cite>i</cite> th function in the list in index 0</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>dictionary</td>
+<td><tt class="docutils literal"><span class="pre">SCORES</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The parameters listed do NOT include any reference to the individual whose fitness will be computed. The individual will be supplied by the main evolution function itself. This is because the individual is chosen by the selection function and therefore cannot be known at the time of making these settings</p>
+</div>
+</div>
+<div class="section" id="selectfunc">
+<h3>selectfunc<a class="headerlink" href="#selectfunc" title="Permalink to this headline">¶</a></h3>
+<p>The selection function by which individuals will be selected for crossover</p>
+</div>
+<div class="section" id="selectparams">
+<h3>selectparams<a class="headerlink" href="#selectparams" title="Permalink to this headline">¶</a></h3>
+<p>A tuple of parameters (in the correct order) for the selection function</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The parameters listed do NOT include any reference to the population from which individuals will be selected. The population will be supplied by the main evolution function itself. This is because the population keeps changing over time and therefore cannot be known at the time of making these settings</p>
+</div>
+</div>
+<div class="section" id="crossfunc">
+<h3>crossfunc<a class="headerlink" href="#crossfunc" title="Permalink to this headline">¶</a></h3>
+<p>The function that performs crossover between two individuals</p>
+</div>
+<div class="section" id="crossparams">
+<h3>crossparams<a class="headerlink" href="#crossparams" title="Permalink to this headline">¶</a></h3>
+<p>A tuple of parameters (in the correct order) for the crossover function</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The parameters listed do NOT include any reference to the individuals to be crossed over. These individuals will be supplied by the main evolution function itself. This is because the individuals are chosen by the selection function and therefore cannot be known at the time of making these settings</p>
+</div>
+</div>
+<div class="section" id="mutfunc">
+<h3>mutfunc<a class="headerlink" href="#mutfunc" title="Permalink to this headline">¶</a></h3>
+<p>The function that will mutate a given individual</p>
+</div>
+<div class="section" id="mutparams">
+<h3>mutparams<a class="headerlink" href="#mutparams" title="Permalink to this headline">¶</a></h3>
+<p>A tuple of parameters (in the correct order) for the crossover function</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The parameters listed do NOT include any reference to the individual to be mutated. This individual will be supplied by the main evolution function itself. This is because the individual is chosen at random (with probability) and therefore cannot be known at the time of making these settings</p>
+</div>
+</div>
+<div class="section" id="crossprob">
+<h3>crossprob<a class="headerlink" href="#crossprob" title="Permalink to this headline">¶</a></h3>
+<p>The probability of crossover occurring. Represented as a float in [0, 1]</p>
+</div>
+<div class="section" id="mutprob">
+<h3>mutprob<a class="headerlink" href="#mutprob" title="Permalink to this headline">¶</a></h3>
+<p>The probability of mutation occurring. Represented as a float in [0, 1]</p>
+</div>
+<div class="section" id="roulettewheelrequireres">
+<h3>rouletteWheelRequireres<a class="headerlink" href="#roulettewheelrequireres" title="Permalink to this headline">¶</a></h3>
+<p>A set of functions that require a roulette wheel. This is used later in the automated computation some settings</p>
+</div>
+<div class="section" id="getwheel">
+<h3>getWheel<a class="headerlink" href="#getwheel" title="Permalink to this headline">¶</a></h3>
+<p>A <tt class="docutils literal"><span class="pre">bool</span></tt> that determines whether the evolutionary algorithm must compute a roulette wheel for selection</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is an automatically set parameter. Do not alter it.</p>
+</div>
+</div>
+<div class="section" id="visualize">
+<h3>visualize<a class="headerlink" href="#visualize" title="Permalink to this headline">¶</a></h3>
+<p>A boolean flag that determines if visualization is enabled</p>
+</div>
+<div class="section" id="screenwidth">
+<h3>screenWidth<a class="headerlink" href="#screenwidth" title="Permalink to this headline">¶</a></h3>
+<p>The width of the screen created for visualization</p>
+</div>
+<div class="section" id="screenheight">
+<h3>screenHeight<a class="headerlink" href="#screenheight" title="Permalink to this headline">¶</a></h3>
+<p>The height of the screen created for visualization</p>
+</div>
+<div class="section" id="makescreenparams">
+<h3>makeScreenParams<a class="headerlink" href="#makescreenparams" title="Permalink to this headline">¶</a></h3>
+<p>A tuple of parameters (in the correct order) required to make the screen on which the visualization will be drawn</p>
+</div>
+<div class="section" id="drawparams">
+<h3>drawParams<a class="headerlink" href="#drawparams" title="Permalink to this headline">¶</a></h3>
+<p>A tuple of parameters (in the correct order) required to draw the visualization on the screen</p>
+</div>
+<div class="section" id="fon">
+<h3>fon<a class="headerlink" href="#fon" title="Permalink to this headline">¶</a></h3>
+<p>The font with which any text should be written on screen during visualization</p>
+</div>
+<div class="section" id="fontparams">
+<h3>fontParams<a class="headerlink" href="#fontparams" title="Permalink to this headline">¶</a></h3>
+<p>The parameters for rendering font as a tuple 9in the correct order)</p>
+</div>
+<div class="section" id="labelparams">
+<h3>labelParams<a class="headerlink" href="#labelparams" title="Permalink to this headline">¶</a></h3>
+<p>A tuple of parameters (in the correct order) required to place any text in the correct place on screen during visualization</p>
+</div>
+<div class="section" id="sanity">
+<h3>sanity<a class="headerlink" href="#sanity" title="Permalink to this headline">¶</a></h3>
+<p>A list of parameter names that should be present in the settings.
+The settings are checked for the entries in <tt class="docutils literal"><span class="pre">sanity</span></tt> before any evolution is run, to ensure that all parameters are provided</p>
+</div>
+<div class="section" id="answer">
+<h3>answer<a class="headerlink" href="#answer" title="Permalink to this headline">¶</a></h3>
+<p>A dictionary of the settings to run evolution</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">It is generally a bad idea to alter statements that are not assignment statements. This is because they are automations that generate some settings, thus taking the responsibility of generating those settings away from the programmer. Altering them may have unintended side-effects</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">It is generally a bad idea to alter statements that are inside the <tt class="docutils literal"><span class="pre">if</span> <span class="pre">visualize</span></tt> block. This is a block that automates the inclusion of settings (both into the returned settings and the sanity) for visualization if it is enabled</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">settings.py</a><ul>
+<li><a class="reference internal" href="#fields">Fields</a><ul>
+<li><a class="reference internal" href="#algorithm">algorithm</a></li>
+<li><a class="reference internal" href="#testmode">testmode</a></li>
+<li><a class="reference internal" href="#maxgens">maxGens</a></li>
+<li><a class="reference internal" href="#targetscore">targetscore</a></li>
+<li><a class="reference internal" href="#popsize">popsize</a></li>
+<li><a class="reference internal" href="#numcrossovers">numCrossovers</a></li>
+<li><a class="reference internal" href="#scores">SCORES</a></li>
+<li><a class="reference internal" href="#genfunc">genfunc</a></li>
+<li><a class="reference internal" href="#genparams">genparams</a></li>
+<li><a class="reference internal" href="#scorefunc">scorefunc</a></li>
+<li><a class="reference internal" href="#scoreparams">scoreparams</a></li>
+<li><a class="reference internal" href="#selectfunc">selectfunc</a></li>
+<li><a class="reference internal" href="#selectparams">selectparams</a></li>
+<li><a class="reference internal" href="#crossfunc">crossfunc</a></li>
+<li><a class="reference internal" href="#crossparams">crossparams</a></li>
+<li><a class="reference internal" href="#mutfunc">mutfunc</a></li>
+<li><a class="reference internal" href="#mutparams">mutparams</a></li>
+<li><a class="reference internal" href="#crossprob">crossprob</a></li>
+<li><a class="reference internal" href="#mutprob">mutprob</a></li>
+<li><a class="reference internal" href="#roulettewheelrequireres">rouletteWheelRequireres</a></li>
+<li><a class="reference internal" href="#getwheel">getWheel</a></li>
+<li><a class="reference internal" href="#visualize">visualize</a></li>
+<li><a class="reference internal" href="#screenwidth">screenWidth</a></li>
+<li><a class="reference internal" href="#screenheight">screenHeight</a></li>
+<li><a class="reference internal" href="#makescreenparams">makeScreenParams</a></li>
+<li><a class="reference internal" href="#drawparams">drawParams</a></li>
+<li><a class="reference internal" href="#fon">fon</a></li>
+<li><a class="reference internal" href="#fontparams">fontParams</a></li>
+<li><a class="reference internal" href="#labelparams">labelParams</a></li>
+<li><a class="reference internal" href="#sanity">sanity</a></li>
+<li><a class="reference internal" href="#answer">answer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="GA.py.html"
+                        title="previous chapter">GA.py</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="visualization.py.html"
+                        title="next chapter">visualization.py</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/settings.py.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="visualization.py.html" title="visualization.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="GA.py.html" title="GA.py"
+             >previous</a> |</li>
+        <li><a href="index.html">Genetic 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Ashwin Panchapakesan.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

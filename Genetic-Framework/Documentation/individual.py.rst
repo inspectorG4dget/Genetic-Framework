@@ -1,0 +1,61 @@
+individual.py
+*************
+
+Define an individual to be used for evolution.
+    
+Class Variables
+===============
+
+``ID``
+-------
+A trackable ID generator
+
+Instance variables
+==================
+
+``id``
+------
+A trackable identifier for the individual
+
+``chromosomes``
+---------------
+An ordered collection of the genetic material of this individual. Maintained as a list
+
+Methods
+========
+
+``__eq__(self, other)``
+------------------------
+Return True if all chromosomes of self and other are equal (and in the same order).
+Else, return False
+
+``__hash__(self)``
+-------------------
+Return the hash of the tuple version of all chromosomes
+
+``__len__(self)``
+Return the number of chromosomes ``self`` is made of.
+
+``__getitem__(self, i)``
+------------------------
+Return the `i` th individual
+
+``__setitem__(self, index, obj)``
+---------------------------------
+Set obj as the `index`th chromosome of ``self``
+        
+``__contains__(self, chromosome)``
+----------------------------------
+Return True if ``chromosome`` is a member of ``self.chromosomes``.
+Else return False
+
+``__repr__(self)``
+-------------------
+Return ``self.id`` as a string
+
+``append(self, chrom)``
+-----------------------
+Append ``chrom`` to ``self.chromosomes``
+
+``count(self, sub, chrom)``
+Return the number of occurrences of ``sub`` in the ``chrom`` th chromosome of ``self``

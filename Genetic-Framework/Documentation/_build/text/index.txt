@@ -1,0 +1,66 @@
+
+Welcome to Genetic's documentation!
+***********************************
+
+Contents:
+
+* Required Installations
+  * Python 2.7
+  * PyGame (and all its dependencies)
+* Overview - How to use this Framework
+  * individual.py
+  * population.py
+  * fitness.py
+  * selection.py
+  * crossover.py
+  * mutation.py
+* individual.py
+  * Class Variables
+  * Instance variables
+  * Methods
+* population.py
+  * genPop(N, chromGenfuncs, chromGenParams)
+  * genCharsChrom(l, chars)
+  * genTour(numCities)
+* fitness.py
+  * score(p, scorefuncs, scorefuncparams, SCORES)
+  * scoreOnes(p)
+  * scoreTSP(tour, DIST)
+* selection.py
+  * getRouletteWheel(pop, SCORES)
+  * rouletteWheelSelect(wheel, s=None)
+  * tournamentSelect(pop, T, w, n, scorefunc, scoreparams)
+* crossover.py
+  * crossOnes(p1, p2, chrom)
+  * injectionco(p1, p2, chrom)
+* mutaion.py
+  * mutateSingleAllele(p, chrom, chars)
+  * "swapmut(p, chrom)"
+  * "revmut(p, chrom)"
+  * "shufflemut(p, chrom)"
+* GA.py
+  * runTSPGA(kwargs)
+  * runGA(kwargs)
+* settings.py
+  * Fields
+* visualization.py
+  * makeScreen(W, H)
+  * normalize(point, (olow, ohigh), (low, high))
+  * draw(tour, window, W, H, SCORES, COORDS)
+  * killscreen()
+* Contracts
+  * GA.py
+  * Individual.py
+  * population.py
+  * score.py
+  * crossover.py
+  * muatation.py
+
+Indices and tables
+******************
+
+* *Index*
+
+* *Module Index*
+
+* *Search Page*

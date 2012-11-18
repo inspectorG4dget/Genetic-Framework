@@ -1,0 +1,35 @@
+    from itertools import count
+    
+    class Individual:
+        ID = count()
+        def __init__(self, chromosomes):
+
+            self.chromosomes = chromosomes[:]    # managed as a list as order is used to identify chromosomal functions (i.e. chromosome i encodes functionality f)
+            self.id = self.ID.next()
+        
+        def __eq__(self, other):
+            return self.chromosomes == other.chromosomes
+        
+        def __hash__(self):
+            return hash(tuple(tuple(chromosome) for chromosome in self.chromosomes))
+        
+        def __len__(self):
+            return len(self.chromosomes)
+        
+        def __getitem__(self, i):
+            return self.chromosomes[i]
+        
+        def __setitem__(self, index, obj):
+            self.chromosomes[index] = obj
+        
+        def __contains__(self, chromosome):
+            return chromosome in self.chromosomes
+        
+        def __repr__(self):
+            return str(self.id)
+        
+        def append(self, chrom):
+            self.chromosomes.append(chrom)
+        
+        def count(self, sub, chrom):
+            return self.chromosomes[chrom].count(sub)

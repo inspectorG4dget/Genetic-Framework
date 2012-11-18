@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview - How to use this Framework &mdash; Genetic 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Genetic 1.0 documentation" href="index.html" />
+    <link rel="next" title="individual.py" href="individual.py.html" />
+    <link rel="prev" title="Required Installations" href="Required Installs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="individual.py.html" title="individual.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Required Installs.html" title="Required Installations"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Genetic 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="overview-how-to-use-this-framework">
+<h1>Overview - How to use this Framework<a class="headerlink" href="#overview-how-to-use-this-framework" title="Permalink to this headline">¶</a></h1>
+<p>If you are making your own evolutionary algorithm, there are several files that you should edit</p>
+<div class="section" id="individual-py">
+<h2>individual.py<a class="headerlink" href="#individual-py" title="Permalink to this headline">¶</a></h2>
+<p>This file defines what an individual is (in a class). Generically, an <tt class="xref py py-class docutils literal"><span class="pre">individual</span></tt> is simply an ordered collection of chromosomes. The original implementation treats each chromosome differently. Therefore, all the chromosomes of an individual are maintained in a <tt class="docutils literal"><span class="pre">list</span></tt> as opposed to a <tt class="docutils literal"><span class="pre">set</span></tt>.</p>
+<p>Also implemented in this file are methods to the <tt class="docutils literal"><span class="pre">individual</span></tt> class that help identify an individual, define its <tt class="docutils literal"><span class="pre">hash</span></tt>, test its equality to another <tt class="docutils literal"><span class="pre">individual</span></tt> instance, etc</p>
+</div>
+<div class="section" id="population-py">
+<h2>population.py<a class="headerlink" href="#population-py" title="Permalink to this headline">¶</a></h2>
+<p>This file contains the functions that define population generation.
+The important function defined here is <a class="reference internal" href="#genPop" title="genPop"><tt class="xref py py-func docutils literal"><span class="pre">genPop()</span></tt></a>, which may be used as an interface to creating unique individuals.</p>
+<dl class="function">
+<dt id="genPop">
+<tt class="descname">genPop</tt><big>(</big><em>N</em>, <em>chromGenfuncs</em>, <em>chromGenParams</em><big>)</big><a class="headerlink" href="#genPop" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>N</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; the number of individuals in the population</li>
+<li><strong>chromGenfuncs</strong> (<em>list of tuples</em>) &#8211; a list of functions. The ith function is responsible for generating the ith chromosome for the individual. The length of this list is exactly the number of chromosomes in each individual</li>
+<li><strong>chromGenfuncs</strong> &#8211; list of params for the functions in chromGenfuncs. The ith function in chromGenfuncs is called with the parameters held in the ith tuple of this list</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of unique individuals. Uniqueness is defined by <tt class="docutils literal"><span class="pre">Individual.__eq__</span></tt></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="section" id="chromgenfuncs">
+<h3>chromGenfuncs<a class="headerlink" href="#chromgenfuncs" title="Permalink to this headline">¶</a></h3>
+<p>chromGenfuncs is a list of functions. The idea here is that each individual in the population is made up of C chromosomes. These C chromosomes are generated independently of each other for each individual in the initial population. Therefore, there must be exactly C functions listed in chromGenfuncs. The <tt class="docutils literal"><span class="pre">i</span></tt> th function in chromGenfuncs will be used to generate the <tt class="docutils literal"><span class="pre">i</span></tt> th chromosome of each individual</p>
+</div>
+<div class="section" id="chromgenparams">
+<h3>chromGenParams<a class="headerlink" href="#chromgenparams" title="Permalink to this headline">¶</a></h3>
+<p>chromGenParams is a list of tuples. There should be exactly as many tuples in this list, as there are functions in chromGenfuncs. To generate the ith chromosome for each individual in the population, the ith function in chromGenfuncs is called with the parameters in the ith tuple of chromGenParams as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chromGenfuncs</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="o">*</span><span class="n">chromGenParams</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Though that is the general idea behind how <a class="reference internal" href="#genPop" title="genPop"><tt class="xref py py-func docutils literal"><span class="pre">genPop()</span></tt></a> works, it actually performs this call in a for loop over a <a class="reference external" href="http://docs.python.org/library/functions.html#zip" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">zip()</span></tt></a> of chromGenfuncs and chromGenParams</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In order for <a class="reference internal" href="#genPop" title="genPop"><tt class="xref py py-func docutils literal"><span class="pre">genPop()</span></tt></a> to work, <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> must implement <tt class="xref py py-func docutils literal"><span class="pre">__hash__()</span></tt>. This is because <a class="reference internal" href="#genPop" title="genPop"><tt class="xref py py-func docutils literal"><span class="pre">genPop()</span></tt></a> uses a <tt class="docutils literal"><span class="pre">set</span></tt> internally before returning a list of individuals as the generated population. As a result, a meaningful <tt class="xref py py-func docutils literal"><span class="pre">__hash__()</span></tt> must be implemented in <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="fitness-py">
+<h2>fitness.py<a class="headerlink" href="#fitness-py" title="Permalink to this headline">¶</a></h2>
+<p>This file contains all selection functions for evaluating the fitness of any individual of the population. The main function in this file is called <a class="reference internal" href="#score" title="score"><tt class="xref py py-func docutils literal"><span class="pre">score()</span></tt></a>.</p>
+<dl class="function">
+<dt id="score">
+<tt class="descname">score</tt><big>(</big><em>p</em>, <em>scorefuncs</em>, <em>scorefuncparams</em>, <em>SCORES</em><big>)</big><a class="headerlink" href="#score" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> (<em>instance of individual</em>) &#8211; the individual being evaluated</li>
+<li><strong>scorefuncs</strong> (<em>list of functions</em>) &#8211; a list of functions - one to evaluate each chromosome in the individual</li>
+<li><strong>scorefuncparams</strong> &#8211; a list of tuples containing the parameters for each of the functions in scorefuncs. Each function will be called by calling scorefuncs[i](p, <a href="#id1"><span class="problematic" id="id2">*</span></a>scorefuncparams[i])</li>
+<li><strong>SCORES</strong> (<em>dict {Individual : number}</em>) &#8211; a dict mapping instances of Individual to their fitness</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">number (the fitness of the individual)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if the individual being evaluated by this function (<tt class="docutils literal"><span class="pre">p</span></tt>) was not in <tt class="docutils literal"><span class="pre">SCORES</span></tt> before the function is executed, it will be inserted into <tt class="docutils literal"><span class="pre">SCORES</span></tt> by this function. Thus, <tt class="docutils literal"><span class="pre">SCORES</span></tt> is modified in-place by this function as required.</p>
+</div>
+</div>
+<div class="section" id="selection-py">
+<h2>selection.py<a class="headerlink" href="#selection-py" title="Permalink to this headline">¶</a></h2>
+<p>This file contains all selection functions for selecting individuals from a population for any purpose.</p>
+<p>There are three important functions already implemented:</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#tournamentSelect" title="tournamentSelect"><tt class="xref py py-func docutils literal"><span class="pre">tournamentSelect()</span></tt></a></li>
+<li><a class="reference internal" href="#rouletteWheelSelect" title="rouletteWheelSelect"><tt class="xref py py-func docutils literal"><span class="pre">rouletteWheelSelect()</span></tt></a></li>
+<li><a class="reference internal" href="#getRouletteWheel" title="getRouletteWheel"><tt class="xref py py-func docutils literal"><span class="pre">getRouletteWheel()</span></tt></a></li>
+</ol>
+<div class="section" id="tournamentselect">
+<h3><a class="reference internal" href="#tournamentSelect" title="tournamentSelect"><tt class="xref py py-func docutils literal"><span class="pre">tournamentSelect()</span></tt></a><a class="headerlink" href="#tournamentselect" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="tournamentSelect">
+<tt class="descname">tournamentSelect</tt><big>(</big><em>pop</em>, <em>T</em>, <em>w</em>, <em>n</em>, <em>scorefunc</em>, <em>scoreparams</em><big>)</big><a class="headerlink" href="#tournamentSelect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pop</strong> (<em>list of Individuals</em>) &#8211; the population to select from</li>
+<li><strong>T</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; the number of contestants in each tournament (must be smaller than len(pop))</li>
+<li><strong>w</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; the number of winners in each tournament (must be smaller than T)</li>
+<li><strong>n</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; the number of Individuals to be selected from the population by Tournament Selection (n%w should be 0)</li>
+<li><strong>scorefunc</strong> (<em>function</em>) &#8211; the function used to evaluate the fitness of individuals, to determine the winner(s) of a tournament</li>
+<li><strong>scoreparams</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; the parameters that scorefunc requires, other than the individual itself. The individual is provided along with the unpacked list of params</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of individuals</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="roulettewheelselect">
+<h3><a class="reference internal" href="#rouletteWheelSelect" title="rouletteWheelSelect"><tt class="xref py py-func docutils literal"><span class="pre">rouletteWheelSelect()</span></tt></a><a class="headerlink" href="#roulettewheelselect" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="rouletteWheelSelect">
+<tt class="descname">rouletteWheelSelect</tt><big>(</big><em>wheel</em>, <em>s=None</em><big>)</big><a class="headerlink" href="#rouletteWheelSelect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>wheel</strong> (<em>a list of 3-tuples. Each tuple consists of the individual, the lower bound (float) of its section of the roulette wheel, and the upper bound (float) of its section of the roulette wheel.</em>) &#8211; a roulette wheel</li>
+<li><strong>s</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; the random number on which the roulette ball lands on the roulette wheel. This is not provided when calling the function (though it may be if desired). Using this, a binary search is performed to find the Individual that bet on a section of the roulette wheel containing this number</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">single individual</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="getroulettewheel">
+<h3><a class="reference internal" href="#getRouletteWheel" title="getRouletteWheel"><tt class="xref py py-func docutils literal"><span class="pre">getRouletteWheel()</span></tt></a><a class="headerlink" href="#getroulettewheel" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="getRouletteWheel">
+<tt class="descname">getRouletteWheel</tt><big>(</big><em>pop</em>, <em>SCORES</em><big>)</big><a class="headerlink" href="#getRouletteWheel" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pop</strong> (<em>list of instances of Individual</em>) &#8211; the population for which a roulette wheel must be made</li>
+<li><strong>SCORES</strong> (<em>dict {Individual:number}</em>) &#8211; a dictionary that maps instances of Individual to their fitnesses</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of 3-tuples (Individual, lowerBound, UpperBound)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="crossover-py">
+<h2>crossover.py<a class="headerlink" href="#crossover-py" title="Permalink to this headline">¶</a></h2>
+<p>All functions that have to do with crossing over chromosomes between individuals are defined here. There is no generic driver function here as crossovers are defined per GA.</p>
+</div>
+<div class="section" id="mutation-py">
+<h2>mutation.py<a class="headerlink" href="#mutation-py" title="Permalink to this headline">¶</a></h2>
+<p>All functions that have to do with mutating chromosomes between individuals are defined here. There is no generic driver function here as mutations are defined per GA</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview - How to use this Framework</a><ul>
+<li><a class="reference internal" href="#individual-py">individual.py</a></li>
+<li><a class="reference internal" href="#population-py">population.py</a><ul>
+<li><a class="reference internal" href="#chromgenfuncs">chromGenfuncs</a></li>
+<li><a class="reference internal" href="#chromgenparams">chromGenParams</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fitness-py">fitness.py</a></li>
+<li><a class="reference internal" href="#selection-py">selection.py</a><ul>
+<li><a class="reference internal" href="#tournamentselect"><tt class="docutils literal"><span class="pre">tournamentSelect()</span></tt></a></li>
+<li><a class="reference internal" href="#roulettewheelselect"><tt class="docutils literal"><span class="pre">rouletteWheelSelect()</span></tt></a></li>
+<li><a class="reference internal" href="#getroulettewheel"><tt class="docutils literal"><span class="pre">getRouletteWheel()</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#crossover-py">crossover.py</a></li>
+<li><a class="reference internal" href="#mutation-py">mutation.py</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Required Installs.html"
+                        title="previous chapter">Required Installations</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="individual.py.html"
+                        title="next chapter">individual.py</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Overview.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="individual.py.html" title="individual.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Required Installs.html" title="Required Installations"
+             >previous</a> |</li>
+        <li><a href="index.html">Genetic 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Ashwin Panchapakesan.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

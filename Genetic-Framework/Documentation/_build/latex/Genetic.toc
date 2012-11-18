@@ -1,0 +1,171 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Required Installations}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Python 2.7}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}PyGame (and all its dependencies)}{3}{section.1.2}
+\contentsline {chapter}{\numberline {2}Overview - How to use this Framework}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}individual.py}{5}{section.2.1}
+\contentsline {section}{\numberline {2.2}population.py}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}chromGenfuncs}{5}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}chromGenParams}{6}{subsection.2.2.2}
+\contentsline {section}{\numberline {2.3}fitness.py}{6}{section.2.3}
+\contentsline {section}{\numberline {2.4}selection.py}{6}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}\texttt {tournamentSelect()}}{7}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}\texttt {rouletteWheelSelect()}}{7}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}\texttt {getRouletteWheel()}}{7}{subsection.2.4.3}
+\contentsline {section}{\numberline {2.5}crossover.py}{7}{section.2.5}
+\contentsline {section}{\numberline {2.6}mutation.py}{8}{section.2.6}
+\contentsline {chapter}{\numberline {3}individual.py}{9}{chapter.3}
+\contentsline {section}{\numberline {3.1}Class Variables}{9}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}\texttt {ID}}{9}{subsection.3.1.1}
+\contentsline {section}{\numberline {3.2}Instance variables}{9}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}\texttt {id}}{9}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}\texttt {chromosomes}}{9}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Methods}{9}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}\texttt {\_\_eq\_\_(self, other)}}{9}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}\texttt {\_\_hash\_\_(self)}}{9}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}\texttt {\_\_getitem\_\_(self, i)}}{10}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}\texttt {\_\_setitem\_\_(self, index, obj)}}{10}{subsection.3.3.4}
+\contentsline {subsection}{\numberline {3.3.5}\texttt {\_\_contains\_\_(self, chromosome)}}{10}{subsection.3.3.5}
+\contentsline {subsection}{\numberline {3.3.6}\texttt {\_\_repr\_\_(self)}}{10}{subsection.3.3.6}
+\contentsline {subsection}{\numberline {3.3.7}\texttt {append(self, chrom)}}{10}{subsection.3.3.7}
+\contentsline {chapter}{\numberline {4}population.py}{11}{chapter.4}
+\contentsline {section}{\numberline {4.1}genPop(N, chromGenfuncs, chromGenParams)}{11}{section.4.1}
+\contentsline {section}{\numberline {4.2}genCharsChrom(l, chars)}{11}{section.4.2}
+\contentsline {section}{\numberline {4.3}genTour(numCities)}{11}{section.4.3}
+\contentsline {chapter}{\numberline {5}fitness.py}{13}{chapter.5}
+\contentsline {section}{\numberline {5.1}score(p, scorefuncs, scorefuncparams, SCORES)}{13}{section.5.1}
+\contentsline {section}{\numberline {5.2}scoreOnes(p)}{13}{section.5.2}
+\contentsline {section}{\numberline {5.3}scoreTSP(tour, DIST)}{13}{section.5.3}
+\contentsline {chapter}{\numberline {6}selection.py}{15}{chapter.6}
+\contentsline {section}{\numberline {6.1}getRouletteWheel(pop, SCORES)}{15}{section.6.1}
+\contentsline {section}{\numberline {6.2}rouletteWheelSelect(wheel, s=None)}{15}{section.6.2}
+\contentsline {section}{\numberline {6.3}tournamentSelect(pop, T, w, n, scorefunc, scoreparams)}{15}{section.6.3}
+\contentsline {chapter}{\numberline {7}crossover.py}{17}{chapter.7}
+\contentsline {section}{\numberline {7.1}crossOnes(p1, p2, chrom)}{17}{section.7.1}
+\contentsline {section}{\numberline {7.2}injectionco(p1, p2, chrom)}{17}{section.7.2}
+\contentsline {chapter}{\numberline {8}mutaion.py}{19}{chapter.8}
+\contentsline {section}{\numberline {8.1}mutateSingleAllele(p, chrom, chars)}{19}{section.8.1}
+\contentsline {section}{\numberline {8.2}\texttt {swapmut(p, chrom)}}{19}{section.8.2}
+\contentsline {section}{\numberline {8.3}\texttt {revmut(p, chrom)}}{19}{section.8.3}
+\contentsline {section}{\numberline {8.4}\texttt {shufflemut(p, chrom)}}{19}{section.8.4}
+\contentsline {chapter}{\numberline {9}GA.py}{21}{chapter.9}
+\contentsline {section}{\numberline {9.1}runTSPGA(kwargs)}{21}{section.9.1}
+\contentsline {section}{\numberline {9.2}runGA(kwargs)}{21}{section.9.2}
+\contentsline {chapter}{\numberline {10}settings.py}{23}{chapter.10}
+\contentsline {section}{\numberline {10.1}Fields}{23}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}testmode}{23}{subsection.10.1.1}
+\contentsline {subsection}{\numberline {10.1.2}maxGens}{23}{subsection.10.1.2}
+\contentsline {subsection}{\numberline {10.1.3}targetscore}{23}{subsection.10.1.3}
+\contentsline {subsection}{\numberline {10.1.4}popsize}{23}{subsection.10.1.4}
+\contentsline {subsection}{\numberline {10.1.5}numCrossovers}{23}{subsection.10.1.5}
+\contentsline {subsection}{\numberline {10.1.6}SCORES}{24}{subsection.10.1.6}
+\contentsline {subsection}{\numberline {10.1.7}genfunc}{24}{subsection.10.1.7}
+\contentsline {subsection}{\numberline {10.1.8}genparams}{24}{subsection.10.1.8}
+\contentsline {subsection}{\numberline {10.1.9}scorefunc}{24}{subsection.10.1.9}
+\contentsline {subsection}{\numberline {10.1.10}scoreparams}{24}{subsection.10.1.10}
+\contentsline {subsection}{\numberline {10.1.11}selectfunc}{24}{subsection.10.1.11}
+\contentsline {subsection}{\numberline {10.1.12}selectparams}{24}{subsection.10.1.12}
+\contentsline {subsection}{\numberline {10.1.13}crossfunc}{25}{subsection.10.1.13}
+\contentsline {subsection}{\numberline {10.1.14}crossparams}{25}{subsection.10.1.14}
+\contentsline {subsection}{\numberline {10.1.15}mutfunc}{25}{subsection.10.1.15}
+\contentsline {subsection}{\numberline {10.1.16}mutparams}{25}{subsection.10.1.16}
+\contentsline {subsection}{\numberline {10.1.17}crossprob}{25}{subsection.10.1.17}
+\contentsline {subsection}{\numberline {10.1.18}mutprob}{25}{subsection.10.1.18}
+\contentsline {subsection}{\numberline {10.1.19}rouletteWheelRequireres}{25}{subsection.10.1.19}
+\contentsline {subsection}{\numberline {10.1.20}getWheel}{25}{subsection.10.1.20}
+\contentsline {subsection}{\numberline {10.1.21}visualize}{25}{subsection.10.1.21}
+\contentsline {subsection}{\numberline {10.1.22}screenWidth}{26}{subsection.10.1.22}
+\contentsline {subsection}{\numberline {10.1.23}screenHeight}{26}{subsection.10.1.23}
+\contentsline {subsection}{\numberline {10.1.24}makeScreenParams}{26}{subsection.10.1.24}
+\contentsline {subsection}{\numberline {10.1.25}drawParams}{26}{subsection.10.1.25}
+\contentsline {subsection}{\numberline {10.1.26}fon}{26}{subsection.10.1.26}
+\contentsline {subsection}{\numberline {10.1.27}fontParams}{26}{subsection.10.1.27}
+\contentsline {subsection}{\numberline {10.1.28}labelParams}{26}{subsection.10.1.28}
+\contentsline {subsection}{\numberline {10.1.29}sanity}{26}{subsection.10.1.29}
+\contentsline {subsection}{\numberline {10.1.30}answer}{26}{subsection.10.1.30}
+\contentsline {chapter}{\numberline {11}visualization.py}{27}{chapter.11}
+\contentsline {section}{\numberline {11.1}makeScreen(W, H)}{27}{section.11.1}
+\contentsline {section}{\numberline {11.2}normalize(point, (olow, ohigh), (low, high))}{27}{section.11.2}
+\contentsline {section}{\numberline {11.3}draw(tour, window, W, H, SCORES, COORDS)}{27}{section.11.3}
+\contentsline {section}{\numberline {11.4}killscreen()}{27}{section.11.4}
+\contentsline {chapter}{\numberline {12}Contracts}{29}{chapter.12}
+\contentsline {section}{\numberline {12.1}GA.py}{29}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}The main GA runner}{29}{subsection.12.1.1}
+\contentsline {subsubsection}{Preconditions}{29}{subsubsection*.8}
+\contentsline {subsubsection}{Postconditions}{29}{subsubsection*.9}
+\contentsline {section}{\numberline {12.2}Individual.py}{29}{section.12.2}
+\contentsline {subsection}{\numberline {12.2.1}\texttt {Individual.\_\_hash\_\_(self, other)}}{30}{subsection.12.2.1}
+\contentsline {subsubsection}{Preconditions}{30}{subsubsection*.10}
+\contentsline {subsubsection}{Postconditions}{30}{subsubsection*.11}
+\contentsline {subsection}{\numberline {12.2.2}\texttt {Individual.\_\_eq\_\_(self, other)}}{30}{subsection.12.2.2}
+\contentsline {subsubsection}{Preconditions}{30}{subsubsection*.12}
+\contentsline {subsubsection}{Postconditions}{30}{subsubsection*.13}
+\contentsline {subsection}{\numberline {12.2.3}\texttt {Individual.\_\_len\_\_(self)}}{30}{subsection.12.2.3}
+\contentsline {subsubsection}{Preconditions}{30}{subsubsection*.14}
+\contentsline {subsubsection}{Postconditions}{30}{subsubsection*.15}
+\contentsline {subsection}{\numberline {12.2.4}\texttt {Individual.\_\_setitem\_\_(self, index, obj)}}{30}{subsection.12.2.4}
+\contentsline {subsubsection}{Preconditions}{30}{subsubsection*.16}
+\contentsline {subsubsection}{Postconditions}{30}{subsubsection*.17}
+\contentsline {subsection}{\numberline {12.2.5}\texttt {Individual.\_\_contains\_\_(self, chromosome)}}{31}{subsection.12.2.5}
+\contentsline {subsubsection}{Preconditions}{31}{subsubsection*.18}
+\contentsline {subsubsection}{Postconditions}{31}{subsubsection*.19}
+\contentsline {subsection}{\numberline {12.2.6}\texttt {Individual.\_\_repr\_\_(self)}}{31}{subsection.12.2.6}
+\contentsline {subsubsection}{Preconditions}{31}{subsubsection*.20}
+\contentsline {subsubsection}{Postconditions}{31}{subsubsection*.21}
+\contentsline {subsubsection}{Preconditions}{31}{subsubsection*.22}
+\contentsline {subsubsection}{Postconditions}{31}{subsubsection*.23}
+\contentsline {subsection}{\numberline {12.2.7}\texttt {Individual.count(self, sub, chrom)}}{31}{subsection.12.2.7}
+\contentsline {subsubsection}{Preconditions}{31}{subsubsection*.24}
+\contentsline {subsubsection}{Postconditions}{31}{subsubsection*.25}
+\contentsline {section}{\numberline {12.3}population.py}{31}{section.12.3}
+\contentsline {subsection}{\numberline {12.3.1}\texttt {genPop(N, chromGenfuncs, chromGenParams)}}{32}{subsection.12.3.1}
+\contentsline {subsubsection}{Preconditions}{32}{subsubsection*.26}
+\contentsline {subsubsection}{Postconditions}{32}{subsubsection*.27}
+\contentsline {subsection}{\numberline {12.3.2}\texttt {genCharsChrom(l, chars)}}{32}{subsection.12.3.2}
+\contentsline {subsubsection}{Preconditions}{32}{subsubsection*.28}
+\contentsline {subsubsection}{Postconditions}{32}{subsubsection*.29}
+\contentsline {subsection}{\numberline {12.3.3}\texttt {genTour(numCities)}}{32}{subsection.12.3.3}
+\contentsline {subsubsection}{Preconditions}{32}{subsubsection*.30}
+\contentsline {subsubsection}{Postconditions}{33}{subsubsection*.31}
+\contentsline {section}{\numberline {12.4}score.py}{33}{section.12.4}
+\contentsline {subsection}{\numberline {12.4.1}\texttt {score(p, scorefuncs, scorefuncparams, SCORES)}}{33}{subsection.12.4.1}
+\contentsline {subsubsection}{Preconditions}{33}{subsubsection*.32}
+\contentsline {subsubsection}{Postconditions}{33}{subsubsection*.33}
+\contentsline {subsection}{\numberline {12.4.2}\texttt {scoreOnes(p)}}{33}{subsection.12.4.2}
+\contentsline {subsubsection}{Preconditions}{33}{subsubsection*.34}
+\contentsline {subsubsection}{Postconditions}{33}{subsubsection*.35}
+\contentsline {subsection}{\numberline {12.4.3}scoreTSP(tour, DIST)}{34}{subsection.12.4.3}
+\contentsline {subsubsection}{Preconditions}{34}{subsubsection*.36}
+\contentsline {subsubsection}{Loop Invariant}{34}{subsubsection*.37}
+\contentsline {subsubsection}{Postconditions}{34}{subsubsection*.38}
+\contentsline {subsection}{\numberline {12.4.4}getRouletteWheel(pop, SCORES)}{34}{subsection.12.4.4}
+\contentsline {subsubsection}{Preconditions}{34}{subsubsection*.39}
+\contentsline {subsubsection}{Postconditions}{34}{subsubsection*.40}
+\contentsline {subsection}{\numberline {12.4.5}rouletteWheelSelect(wheel, s=None)}{35}{subsection.12.4.5}
+\contentsline {subsubsection}{Preconditions}{35}{subsubsection*.41}
+\contentsline {subsubsection}{Postconditions:}{35}{subsubsection*.42}
+\contentsline {subsection}{\numberline {12.4.6}tournamentSelect(pop, T, w, n, scorefunc, scoreparams)}{35}{subsection.12.4.6}
+\contentsline {subsubsection}{Preconditions}{35}{subsubsection*.43}
+\contentsline {subsubsection}{Postconditions}{35}{subsubsection*.44}
+\contentsline {section}{\numberline {12.5}crossover.py}{35}{section.12.5}
+\contentsline {subsection}{\numberline {12.5.1}crossOnes(p1, p2, chrom)}{36}{subsection.12.5.1}
+\contentsline {subsubsection}{Preconditions}{36}{subsubsection*.45}
+\contentsline {subsubsection}{Postconditions}{36}{subsubsection*.46}
+\contentsline {subsection}{\numberline {12.5.2}injectionco(p1, p2, chrom)}{36}{subsection.12.5.2}
+\contentsline {subsubsection}{Preconditions}{36}{subsubsection*.47}
+\contentsline {subsubsection}{Postconditions}{36}{subsubsection*.48}
+\contentsline {section}{\numberline {12.6}muatation.py}{36}{section.12.6}
+\contentsline {subsection}{\numberline {12.6.1}mutateSingleAllele(p, chrom, chars)}{36}{subsection.12.6.1}
+\contentsline {subsubsection}{Preconditions}{36}{subsubsection*.49}
+\contentsline {subsubsection}{Postconditions}{37}{subsubsection*.50}
+\contentsline {subsection}{\numberline {12.6.2}swapmut(p, chrom)}{37}{subsection.12.6.2}
+\contentsline {subsubsection}{Preconditions}{37}{subsubsection*.51}
+\contentsline {subsubsection}{Postconditions}{37}{subsubsection*.52}
+\contentsline {subsection}{\numberline {12.6.3}revmut(p, chrom)}{37}{subsection.12.6.3}
+\contentsline {subsubsection}{Preconditions}{37}{subsubsection*.53}
+\contentsline {subsubsection}{Postconditions}{38}{subsubsection*.54}
+\contentsline {subsection}{\numberline {12.6.4}shufflemut(p, chrom)}{38}{subsection.12.6.4}
+\contentsline {subsubsection}{Preconditions}{38}{subsubsection*.55}
+\contentsline {subsubsection}{Postconditions}{38}{subsubsection*.56}
+\contentsline {chapter}{\numberline {13}Indices and tables}{39}{chapter.13}
+\contentsline {chapter}{Index}{41}{section*.57}
