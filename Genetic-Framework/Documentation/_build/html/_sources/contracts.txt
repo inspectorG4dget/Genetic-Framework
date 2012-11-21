@@ -107,7 +107,7 @@ Postconditions
 1. ``self`` should not be changed
 
 ``Individual.append(self, chrom)``
---=--------------------------------
+-----------------------------------
 
 Preconditions
 ++++++++++++++

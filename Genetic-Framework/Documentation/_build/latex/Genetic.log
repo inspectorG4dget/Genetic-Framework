@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2012.5.30)  28 OCT 2012 16:27
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2012.5.30)  20 NOV 2012 22:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -896,7 +896,7 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <17.28> not available
 ] (./Genetic.toc
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 2.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 48.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 49.
 
 (/usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -907,7 +907,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.i}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.51 ...pter}{\numberline {9}GA.py}{21}{chapter.9}
+l.51 ...t {shufflemut(p, chrom)}}{19}{section.8.4}
                                                    [1
 
 ])
@@ -932,17 +932,17 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
 ]
 Chapter 2.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 156.
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 158.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 161.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 163.
 
 (/usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 178.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 183.
  [5]
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <12> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 251.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 256.
  [6]
 [7] [8]
 Chapter 3.
@@ -969,7 +969,7 @@ Chapter 7.
 ]
 Chapter 8.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 520.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 525.
 [19] [20
 
 ]
@@ -979,37 +979,37 @@ Chapter 9.
 ]
 Chapter 10.
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 653--654
+Underfull \hbox (badness 10000) in paragraph at lines 668--669
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 667--668
+Underfull \hbox (badness 10000) in paragraph at lines 682--683
 
  []
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 681--682
+Underfull \hbox (badness 10000) in paragraph at lines 696--697
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 695--696
+Underfull \hbox (badness 10000) in paragraph at lines 710--711
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 719--720
+Underfull \hbox (badness 10000) in paragraph at lines 734--735
 
  []
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 774--775
+Underfull \hbox (badness 10000) in paragraph at lines 789--790
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 778--779
+Underfull \hbox (badness 10000) in paragraph at lines 793--794
 
  []
 
@@ -1023,32 +1023,36 @@ Chapter 11.
 Chapter 12.
 [29] [30] [31] [32] [33] [34] [35] [36] [37] [38]
 Chapter 13.
-(./Genetic.ind [39
+[39
 
 ] [40
 
-] [41
+]
+Chapter 14.
+(./Genetic.ind [41] [42
+
+] [43
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1698.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1698.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1718.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1718.
  (./Genetic.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1698.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1698.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1718.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1718.
 
 Package rerunfilecheck Info: File `Genetic.out' has not changed.
-(rerunfilecheck)             Checksum: 114949C53A6CCD7BDD317E928E84DBCA;3373.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1698.
+(rerunfilecheck)             Checksum: 6337B65BAB3C9EFE7BD31A2679C44F1B;3543.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1718.
  ) 
 Here is how much of TeX's memory you used:
- 9387 strings out of 493610
- 131328 string characters out of 3142404
- 229501 words of memory out of 3000000
- 12131 multiletter control sequences out of 15000+200000
+ 9403 strings out of 493610
+ 131606 string characters out of 3142404
+ 229788 words of memory out of 3000000
+ 12140 multiletter control sequences out of 15000+200000
  58073 words of font info for 68 fonts, out of 3000000 for 9000
  832 hyphenation exceptions out of 8191
- 37i,11n,49p,442b,502s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,12n,51p,442b,502s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2011/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2
 011/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2011/texm
@@ -1058,10 +1062,10 @@ type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/u
 rw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on Genetic.pdf (45 pages, 157300 bytes).
+Output written on Genetic.pdf (47 pages, 158739 bytes).
 PDF statistics:
- 886 PDF objects out of 1000 (max. 8388607)
- 822 compressed objects within 9 object streams
- 382 named destinations out of 1000 (max. 500000)
- 425 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 912 PDF objects out of 1000 (max. 8388607)
+ 846 compressed objects within 9 object streams
+ 389 named destinations out of 1000 (max. 500000)
+ 449 words of extra memory for PDF output out of 10000 (max. 10000000)
 

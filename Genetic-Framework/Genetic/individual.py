@@ -51,12 +51,15 @@ class Individual:
 		"""
 		return hash(tuple(tuple(chromosome) for chromosome in self.chromosomes))
 	
-	def __len__(self):
+	def __len__(self, chrom=None):
 		"""
 			post[self]:
 				__old__.self == self
 		"""
-		return len(self.chromosomes)
+		if not chrom:
+			return len(self.chromosomes)
+		else:
+			return len(self.chromosomes[chrom])
 	
 	def __getitem__(self, i):
 		"""

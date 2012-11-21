@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>individual.py &mdash; Genetic 3.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Genetic 3.0.2 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Genetic 3.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="individual-py">
+<h1>individual.py<a class="headerlink" href="#individual-py" title="Permalink to this headline">¶</a></h1>
+<p>Define an individual to be used for evolution.</p>
+<div class="section" id="class-variables">
+<h2>Class Variables<a class="headerlink" href="#class-variables" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id">
+<h3><tt class="docutils literal"><span class="pre">ID</span></tt><a class="headerlink" href="#id" title="Permalink to this headline">¶</a></h3>
+<p>A trackable ID generator</p>
+</div>
+</div>
+<div class="section" id="instance-variables">
+<h2>Instance variables<a class="headerlink" href="#instance-variables" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3><tt class="docutils literal"><span class="pre">id</span></tt><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>A trackable identifier for the individual</p>
+</div>
+<div class="section" id="chromosomes">
+<h3><tt class="docutils literal"><span class="pre">chromosomes</span></tt><a class="headerlink" href="#chromosomes" title="Permalink to this headline">¶</a></h3>
+<p>An ordered collection of the genetic material of this individual. Maintained as a list</p>
+</div>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="eq-self-other">
+<h3><tt class="docutils literal"><span class="pre">__eq__(self,</span> <span class="pre">other)</span></tt><a class="headerlink" href="#eq-self-other" title="Permalink to this headline">¶</a></h3>
+<p>Return True if all chromosomes of self and other are equal (and in the same order).
+Else, return False</p>
+</div>
+<div class="section" id="hash-self">
+<h3><tt class="docutils literal"><span class="pre">__hash__(self)</span></tt><a class="headerlink" href="#hash-self" title="Permalink to this headline">¶</a></h3>
+<p>Return the hash of the tuple version of all chromosomes</p>
+<p><tt class="docutils literal"><span class="pre">__len__(self)</span></tt>
+Return the number of chromosomes <tt class="docutils literal"><span class="pre">self</span></tt> is made of.</p>
+</div>
+<div class="section" id="getitem-self-i">
+<h3><tt class="docutils literal"><span class="pre">__getitem__(self,</span> <span class="pre">i)</span></tt><a class="headerlink" href="#getitem-self-i" title="Permalink to this headline">¶</a></h3>
+<p>Return the <cite>i</cite> th individual</p>
+</div>
+<div class="section" id="setitem-self-index-obj">
+<h3><tt class="docutils literal"><span class="pre">__setitem__(self,</span> <span class="pre">index,</span> <span class="pre">obj)</span></tt><a class="headerlink" href="#setitem-self-index-obj" title="Permalink to this headline">¶</a></h3>
+<p>Set obj as the <cite>index`th chromosome of ``self`</cite></p>
+</div>
+<div class="section" id="contains-self-chromosome">
+<h3><tt class="docutils literal"><span class="pre">__contains__(self,</span> <span class="pre">chromosome)</span></tt><a class="headerlink" href="#contains-self-chromosome" title="Permalink to this headline">¶</a></h3>
+<p>Return True if <tt class="docutils literal"><span class="pre">chromosome</span></tt> is a member of <tt class="docutils literal"><span class="pre">self.chromosomes</span></tt>.
+Else return False</p>
+</div>
+<div class="section" id="repr-self">
+<h3><tt class="docutils literal"><span class="pre">__repr__(self)</span></tt><a class="headerlink" href="#repr-self" title="Permalink to this headline">¶</a></h3>
+<p>Return <tt class="docutils literal"><span class="pre">self.id</span></tt> as a string</p>
+</div>
+<div class="section" id="append-self-chrom">
+<h3><tt class="docutils literal"><span class="pre">append(self,</span> <span class="pre">chrom)</span></tt><a class="headerlink" href="#append-self-chrom" title="Permalink to this headline">¶</a></h3>
+<p>Append <tt class="docutils literal"><span class="pre">chrom</span></tt> to <tt class="docutils literal"><span class="pre">self.chromosomes</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">count(self,</span> <span class="pre">sub,</span> <span class="pre">chrom)</span></tt>
+Return the number of occurrences of <tt class="docutils literal"><span class="pre">sub</span></tt> in the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">self</span></tt></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">individual.py</a><ul>
+<li><a class="reference internal" href="#class-variables">Class Variables</a><ul>
+<li><a class="reference internal" href="#id"><tt class="docutils literal"><span class="pre">ID</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#instance-variables">Instance variables</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">id</span></tt></a></li>
+<li><a class="reference internal" href="#chromosomes"><tt class="docutils literal"><span class="pre">chromosomes</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#methods">Methods</a><ul>
+<li><a class="reference internal" href="#eq-self-other"><tt class="docutils literal"><span class="pre">__eq__(self,</span> <span class="pre">other)</span></tt></a></li>
+<li><a class="reference internal" href="#hash-self"><tt class="docutils literal"><span class="pre">__hash__(self)</span></tt></a></li>
+<li><a class="reference internal" href="#getitem-self-i"><tt class="docutils literal"><span class="pre">__getitem__(self,</span> <span class="pre">i)</span></tt></a></li>
+<li><a class="reference internal" href="#setitem-self-index-obj"><tt class="docutils literal"><span class="pre">__setitem__(self,</span> <span class="pre">index,</span> <span class="pre">obj)</span></tt></a></li>
+<li><a class="reference internal" href="#contains-self-chromosome"><tt class="docutils literal"><span class="pre">__contains__(self,</span> <span class="pre">chromosome)</span></tt></a></li>
+<li><a class="reference internal" href="#repr-self"><tt class="docutils literal"><span class="pre">__repr__(self)</span></tt></a></li>
+<li><a class="reference internal" href="#append-self-chrom"><tt class="docutils literal"><span class="pre">append(self,</span> <span class="pre">chrom)</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Documentation/individual.py.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Genetic 3.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Ashwin Panchapakesan.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

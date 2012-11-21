@@ -13,15 +13,13 @@ requires = []
 
 setup(
 	name = 'Pyvolution',
-	version = "1.0.1",
+	version = "1.0.2",
 	description = "Evolutionary Algorithms Framework",
 	long_description="Evolutionary Algorithms Framework",
 	author = 'Ashwin Panchapakesan',
 	author_email = 'ashwin.panchapakesan@gmail.com',
 	url = 'https://github.com/inspectorG4dget/Genetic-Framework',
 	packages = ["Genetic"],
-#	package_data = {'':['Documentation/_build/latex/*']},#, 'Documentation/_build/html/*', 'Documentation/_build/html/*/*', 'Documentation/_build/text/*']},
-	include_package_data = True,
 	install_requires = requires,
 	license = "Apache License, Version 2.0",
 	zip_safe = False,

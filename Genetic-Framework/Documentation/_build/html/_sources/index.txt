@@ -23,6 +23,7 @@ Contents:
    settings.py
    visualization.py
    contracts
+   downloadPDF
 
 
 Indices and tables

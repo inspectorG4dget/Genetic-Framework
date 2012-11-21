@@ -263,10 +263,10 @@ def run(kwargs):
 if __name__ == "__main__":
 	print 'starting'
 	from Genetic import settings
-#	kwargs = settings.getTSPSettings()
-#	answer = run(kwargs)
+	kwargs = settings.getTSPSettings()
+	answer = run(kwargs)
 
-	settings = settings.getOneMaxSettings()
-	answer = run(settings)
+#	settings = settings.getOneMaxSettings()
+#	answer = run(settings)
 
 	print 'done'

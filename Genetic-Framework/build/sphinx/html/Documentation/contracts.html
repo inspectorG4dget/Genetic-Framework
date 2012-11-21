@@ -1,0 +1,824 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Contracts &mdash; Genetic 3.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Genetic 3.0.2 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Genetic 3.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="contracts">
+<h1>Contracts<a class="headerlink" href="#contracts" title="Permalink to this headline">¶</a></h1>
+<p>Contracts are used to check the pre and post conditions of functions to make sure that the evolutionary algorithm remains constrained within the solution space.</p>
+<p>All contracts used by all functions are listed here. It is highly recommended that similar functions that are implemented in the future implement similar contracts. This will be explained further as each contract is explaioned.</p>
+<div class="section" id="ga-py">
+<h2>GA.py<a class="headerlink" href="#ga-py" title="Permalink to this headline">¶</a></h2>
+<p>The main GA driver has the following contracts. It is highly recommended that any GA implemented to maximize the fitness score should implement these contracts.</p>
+<div class="section" id="the-main-ga-runner">
+<h3>The main GA runner<a class="headerlink" href="#the-main-ga-runner" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="preconditions">
+<h4>Preconditions<a class="headerlink" href="#preconditions" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">kwargs</span></tt> should be supplied</li>
+<li><tt class="docutils literal"><span class="pre">kwargs</span></tt> is a dict mapping argument names (strings) to argument values</li>
+<li>The maximum number of generations allowed is greater than 0</li>
+</ol>
+</div>
+<div class="section" id="postconditions">
+<h4>Postconditions<a class="headerlink" href="#postconditions" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">kwargs</span></tt> should not be changed</p>
+</li>
+<li><dl class="first docutils">
+<dt>At least one of the following two conditions must hold</dt>
+<dd><ol class="first last loweralpha simple">
+<li>the fitness of the fittest individual (being returned) is at least <tt class="docutils literal"><span class="pre">targetscore</span></tt></li>
+<li>the current generation count is equal to the maximum number of generations allowed</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first">the maximum number of generations allowed is greater than 0</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="individual-py">
+<h2>Individual.py<a class="headerlink" href="#individual-py" title="Permalink to this headline">¶</a></h2>
+<p>The following contracts must be followed for any implementation of the <tt class="docutils literal"><span class="pre">Individual</span></tt> class</p>
+<div class="section" id="individual-hash-self-other">
+<h3><tt class="docutils literal"><span class="pre">Individual.__hash__(self,</span> <span class="pre">other)</span></tt><a class="headerlink" href="#individual-hash-self-other" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Preconditions<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>None</p>
+</div>
+<div class="section" id="id2">
+<h4>Postconditions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>an <tt class="docutils literal"><span class="pre">int</span></tt> should be returned</li>
+<li><tt class="docutils literal"><span class="pre">self</span></tt> should not be changed</li>
+</ol>
+<p>In addition to these, the current implementation has the following methods implemented:</p>
+</div>
+</div>
+<div class="section" id="individual-eq-self-other">
+<h3><tt class="docutils literal"><span class="pre">Individual.__eq__(self,</span> <span class="pre">other)</span></tt><a class="headerlink" href="#individual-eq-self-other" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h4>Preconditions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">other</span></tt> should be an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h4>Postconditions<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">other</span></tt> should not be changed</li>
+<li><tt class="docutils literal"><span class="pre">self</span></tt> should not be changed</li>
+</ol>
+</div>
+</div>
+<div class="section" id="individual-len-self">
+<h3><tt class="docutils literal"><span class="pre">Individual.__len__(self)</span></tt><a class="headerlink" href="#individual-len-self" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h4>Preconditions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>None</p>
+</div>
+<div class="section" id="id6">
+<h4>Postconditions<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">self</span></tt> should not be changed</li>
+</ol>
+</div>
+</div>
+<div class="section" id="individual-setitem-self-index-obj">
+<h3><tt class="docutils literal"><span class="pre">Individual.__setitem__(self,</span> <span class="pre">index,</span> <span class="pre">obj)</span></tt><a class="headerlink" href="#individual-setitem-self-index-obj" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h4>Preconditions<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Exactly one of the following two conditions must be satisfied:</dt>
+<dd><ol class="first last loweralpha simple">
+<li>0 &lt;= <tt class="docutils literal"><span class="pre">index</span></tt> &lt;= len(self.chromosomes)</li>
+<li>len(self.chromosomes)*-1 &gt;= index &gt;= -1</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="id8">
+<h4>Postconditions<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The object at <tt class="docutils literal"><span class="pre">self.chromosomes[index]</span></tt> should be <tt class="docutils literal"><span class="pre">obj</span></tt></li>
+</ol>
+</div>
+</div>
+<div class="section" id="individual-contains-self-chromosome">
+<h3><tt class="docutils literal"><span class="pre">Individual.__contains__(self,</span> <span class="pre">chromosome)</span></tt><a class="headerlink" href="#individual-contains-self-chromosome" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h4>Preconditions<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p>None</p>
+</div>
+<div class="section" id="id10">
+<h4>Postconditions<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">self</span></tt> should not be changed</li>
+<li><tt class="docutils literal"><span class="pre">chromosome</span></tt> should not be changed</li>
+</ol>
+</div>
+</div>
+<div class="section" id="individual-repr-self">
+<h3><tt class="docutils literal"><span class="pre">Individual.__repr__(self)</span></tt><a class="headerlink" href="#individual-repr-self" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h4>Preconditions<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<p>None</p>
+</div>
+<div class="section" id="id12">
+<h4>Postconditions<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">self</span></tt> should not be changed</li>
+</ol>
+</div>
+</div>
+<div class="section" id="individual-append-self-chrom">
+<h3><tt class="docutils literal"><span class="pre">Individual.append(self,</span> <span class="pre">chrom)</span></tt><a class="headerlink" href="#individual-append-self-chrom" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h4>Preconditions<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<p>None</p>
+</div>
+<div class="section" id="id14">
+<h4>Postconditions<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The length of <tt class="docutils literal"><span class="pre">self.chromosomes</span></tt> should be increased by exactly 1</li>
+<li>The last chromosome in <tt class="docutils literal"><span class="pre">self.chromosomes</span></tt> should be <tt class="docutils literal"><span class="pre">chrom</span></tt></li>
+</ol>
+</div>
+</div>
+<div class="section" id="individual-count-self-sub-chrom">
+<h3><tt class="docutils literal"><span class="pre">Individual.count(self,</span> <span class="pre">sub,</span> <span class="pre">chrom)</span></tt><a class="headerlink" href="#individual-count-self-sub-chrom" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h4>Preconditions<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<p>None</p>
+</div>
+<div class="section" id="id16">
+<h4>Postconditions<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">self</span></tt> should not be changed</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="population-py">
+<h2>population.py<a class="headerlink" href="#population-py" title="Permalink to this headline">¶</a></h2>
+<p>The following contracts are applied to the functions in population.py</p>
+<div class="section" id="genpop-n-chromgenfuncs-chromgenparams">
+<h3><tt class="docutils literal"><span class="pre">genPop(N,</span> <span class="pre">chromGenfuncs,</span> <span class="pre">chromGenParams)</span></tt><a class="headerlink" href="#genpop-n-chromgenfuncs-chromgenparams" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h4>Preconditions<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>N &gt;= 0</li>
+<li><tt class="docutils literal"><span class="pre">chromGenfuncs</span></tt> is a list</li>
+<li>Every entry in <tt class="docutils literal"><span class="pre">chromGenfuncs</span></tt> is a function</li>
+<li><tt class="docutils literal"><span class="pre">chromGenParamss</span></tt> is a list</li>
+<li>The lengths of <tt class="docutils literal"><span class="pre">chromGenfuncs</span></tt> and <tt class="docutils literal"><span class="pre">chromGenParams</span></tt> are equal</li>
+</ol>
+</div>
+<div class="section" id="id18">
+<h4>Postconditions<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>Function returns a list</li>
+<li>The length of the returned list is <tt class="docutils literal"><span class="pre">N</span></tt></li>
+<li>The returned list contains exactly 1 of each item i.e. no two items in the returned list are equal</li>
+</ol>
+</div>
+</div>
+<div class="section" id="gencharschrom-l-chars">
+<h3><tt class="docutils literal"><span class="pre">genCharsChrom(l,</span> <span class="pre">chars)</span></tt><a class="headerlink" href="#gencharschrom-l-chars" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h4>Preconditions<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">l</span></tt> is an integer</li>
+<li><tt class="docutils literal"><span class="pre">chars</span></tt> is an instance of some class that implements <tt class="docutils literal"><span class="pre">__getitem__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">chars</span></tt> is an instance of some class that implements <tt class="docutils literal"><span class="pre">__len__</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">len(chars)</span></tt> is greater than 0</li>
+</ol>
+</div>
+<div class="section" id="id20">
+<h4>Postconditions<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>Function returns a list</li>
+<li>The length of the returned list is <tt class="docutils literal"><span class="pre">l</span></tt></li>
+<li>Every element in the returned list exists in <tt class="docutils literal"><span class="pre">chars</span></tt></li>
+</ol>
+</div>
+</div>
+<div class="section" id="gentour-numcities">
+<h3><tt class="docutils literal"><span class="pre">genTour(numCities)</span></tt><a class="headerlink" href="#gentour-numcities" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h4>Preconditions<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">numCities</span></tt> is an integer</li>
+</ol>
+</div>
+<div class="section" id="id22">
+<h4>Postconditions<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>Function returns a list</li>
+<li>The length of the returned list is <tt class="docutils literal"><span class="pre">numCities</span></tt></li>
+<li>Every element in the returned list exists exactly once in the returned list.</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="score-py">
+<h2>score.py<a class="headerlink" href="#score-py" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="score-p-scorefuncs-scorefuncparams-scores">
+<h3><tt class="docutils literal"><span class="pre">score(p,</span> <span class="pre">scorefuncs,</span> <span class="pre">scorefuncparams,</span> <span class="pre">SCORES)</span></tt><a class="headerlink" href="#score-p-scorefuncs-scorefuncparams-scores" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h4>Preconditions<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">scorefuncs</span></tt> is a list of functions</li>
+<li><tt class="docutils literal"><span class="pre">scorefuncparams</span></tt> is a list of tuples</li>
+<li>The lengths of <tt class="docutils literal"><span class="pre">scorefuncs</span></tt> and <tt class="docutils literal"><span class="pre">scorefuncparams</span></tt> are equal</li>
+<li><tt class="docutils literal"><span class="pre">SCORES</span></tt> is a dictionary</li>
+</ol>
+</div>
+<div class="section" id="id24">
+<h4>Postconditions<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first">The inputs are unchanged</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is in <tt class="docutils literal"><span class="pre">SCORES</span></tt></p>
+</li>
+<li><dl class="first docutils">
+<dt>Exactly one of the following two conditions are met:</dt>
+<dd><ol class="first last loweralpha simple">
+<li><tt class="docutils literal"><span class="pre">p</span></tt> was in <tt class="docutils literal"><span class="pre">SCORES</span></tt> before this function was called and the number of entries in <tt class="docutils literal"><span class="pre">SCORES</span></tt> has not changed</li>
+<li><tt class="docutils literal"><span class="pre">p</span></tt> was not in <tt class="docutils literal"><span class="pre">SCORES</span></tt> before this function was called and the number of entries in <tt class="docutils literal"><span class="pre">SCORES</span></tt> has increased by exactly 1</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="scoreones-p">
+<h3><tt class="docutils literal"><span class="pre">scoreOnes(p)</span></tt><a class="headerlink" href="#scoreones-p" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id25">
+<h4>Preconditions<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">p</span></tt> is list</li>
+<li>All elements in <tt class="docutils literal"><span class="pre">p</span></tt> are strings of length exactly 1</li>
+<li>All elements in <tt class="docutils literal"><span class="pre">p</span></tt> are either &#8216;0&#8217; or &#8216;1&#8217;</li>
+</ol>
+</div>
+<div class="section" id="id26">
+<h4>Postconditions<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">p</span></tt> is unchaged</li>
+<li>An integer is returned</li>
+<li>The value returned is at least 0</li>
+</ol>
+</div>
+</div>
+<div class="section" id="scoretsp-tour-dist">
+<h3>scoreTSP(tour, DIST)<a class="headerlink" href="#scoretsp-tour-dist" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><dl class="docutils">
+<dt>post:</dt>
+<dd>isinstance(__return__, float)</dd>
+<dt>post[tour, DIST]:</dt>
+<dd>__old__.tour == tour
+__old__.DIST == DIST</dd>
+</dl>
+</div></blockquote>
+<div class="section" id="id27">
+<h4>Preconditions<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">tour</span></tt> is a list</li>
+<li><tt class="docutils literal"><span class="pre">DIST</span></tt> is a dictionary</li>
+<li>All elements in <tt class="docutils literal"><span class="pre">tour</span></tt> are integers</li>
+<li>All keys in <tt class="docutils literal"><span class="pre">DIST</span></tt> are integers</li>
+<li>All values in <tt class="docutils literal"><span class="pre">DIST</span></tt> are dictionaries</li>
+<li>Every key in every value of <tt class="docutils literal"><span class="pre">DIST</span></tt> is an integer</li>
+<li>Every value in every value of <tt class="docutils literal"><span class="pre">DIST</span></tt> is a float</li>
+</ol>
+</div>
+<div class="section" id="loop-invariant">
+<h4>Loop Invariant<a class="headerlink" href="#loop-invariant" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">answer</span></tt> (the value to be returned is at most 0 and monotonously decreases</li>
+</ol>
+</div>
+<div class="section" id="id28">
+<h4>Postconditions<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>The function returns a float</li>
+</ol>
+</div>
+</div>
+<div class="section" id="getroulettewheel-pop-scores">
+<h3>getRouletteWheel(pop, SCORES)<a class="headerlink" href="#getroulettewheel-pop-scores" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h4>Preconditions<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">pop</span></tt> is a list of instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">SCORES</span></tt> is a dictionary</li>
+<li>Every element in <tt class="docutils literal"><span class="pre">pop</span></tt> is a key in <tt class="docutils literal"><span class="pre">SCORES</span></tt></li>
+</ol>
+</div>
+<div class="section" id="id30">
+<h4>Postconditions<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>A list of 3-tuples of type (Individual, float, float) is returned</li>
+<li>The length of the returned list is equal to the length of <tt class="docutils literal"><span class="pre">pop</span></tt></li>
+<li>The first element of every tuple in the returned list exists in <tt class="docutils literal"><span class="pre">pop</span></tt></li>
+<li>The second float is smaller than the third float in every tuple in the returned list</li>
+</ol>
+</div>
+</div>
+<div class="section" id="roulettewheelselect-wheel-s-none">
+<h3>rouletteWheelSelect(wheel, s=None)<a class="headerlink" href="#roulettewheelselect-wheel-s-none" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h4>Preconditions<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">wheel</span></tt> is a list of 3-tuples which satisfy all the following conditions</dt>
+<dd><ol class="first last loweralpha simple">
+<li>The first element is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+<li>The last two elements are floats</li>
+<li>The first float is smaller than the second</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Exactly one of the following two conditions are met:</dt>
+<dd><ol class="first last loweralpha simple">
+<li><tt class="docutils literal"><span class="pre">s</span></tt> is a float</li>
+<li><tt class="docutils literal"><span class="pre">s</span></tt> is None</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="id32">
+<h4>Postconditions:<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>An instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
+</ol>
+</div>
+</div>
+<div class="section" id="tournamentselect-pop-t-w-n-scorefunc-scoreparams">
+<h3>tournamentSelect(pop, T, w, n, scorefunc, scoreparams)<a class="headerlink" href="#tournamentselect-pop-t-w-n-scorefunc-scoreparams" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h4>Preconditions<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">pop</span></tt> is a list of instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">T</span></tt> is an integer</li>
+<li><tt class="docutils literal"><span class="pre">w</span></tt> is an integer</li>
+<li><tt class="docutils literal"><span class="pre">n</span></tt> is an integer</li>
+<li><tt class="docutils literal"><span class="pre">w</span></tt> is at most <tt class="docutils literal"><span class="pre">n</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">n%w</span></tt> is exactly 0</li>
+<li><tt class="docutils literal"><span class="pre">n</span></tt> is at most <tt class="docutils literal"><span class="pre">T</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">scoreparams</span></tt> is a tuple</li>
+</ol>
+</div>
+<div class="section" id="id34">
+<h4>Postconditions<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>A list of <tt class="docutils literal"><span class="pre">n</span></tt> instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="crossover-py">
+<h2>crossover.py<a class="headerlink" href="#crossover-py" title="Permalink to this headline">¶</a></h2>
+<p>The following contracts are implemented for the crossover functions.</p>
+<div class="section" id="crossones-p1-p2-chrom">
+<h3>crossOnes(p1, p2, chrom)<a class="headerlink" href="#crossones-p1-p2-chrom" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id35">
+<h4>Preconditions<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">chrom</span></tt> is an integer</li>
+</ol>
+</div>
+<div class="section" id="id36">
+<h4>Postconditions<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first">The inputs are unchaged</p>
+</li>
+<li><p class="first">A tuple of two instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</p>
+</li>
+<li><dl class="first docutils">
+<dt>Each individual in the return tuple satisfies the following conditions:</dt>
+<dd><ol class="first last loweralpha simple">
+<li>The <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome is a list of one-character strings</li>
+<li>The value of the ith gene of the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome is exactly the value of the ith gene of the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of either <tt class="docutils literal"><span class="pre">p1</span></tt> or <tt class="docutils literal"><span class="pre">p2</span></tt></li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="injectionco-p1-p2-chrom">
+<h3>injectionco(p1, p2, chrom)<a class="headerlink" href="#injectionco-p1-p2-chrom" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id37">
+<h4>Preconditions<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">chrom</span></tt> is an integer</li>
+<li>The length of <cite>p1</cite> is exactly equal to the length of <tt class="docutils literal"><span class="pre">p2</span></tt></li>
+<li>For every element in <tt class="docutils literal"><span class="pre">p1</span></tt>, there exists an element in <tt class="docutils literal"><span class="pre">p2</span></tt> of the same type</li>
+<li>For every element in <tt class="docutils literal"><span class="pre">p2</span></tt>, there exists an element in <tt class="docutils literal"><span class="pre">p1</span></tt> of the same type</li>
+</ol>
+</div>
+<div class="section" id="id38">
+<h4>Postconditions<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchaged</li>
+<li>A new object is returned</li>
+<li>The length of the returned object is eactly equal to the lengths of <tt class="docutils literal"><span class="pre">p1</span></tt> or <tt class="docutils literal"><span class="pre">p2</span></tt></li>
+<li>The function returns a permutation i.e. all elements in the returned object occur exactly once</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="muatation-py">
+<h2>muatation.py<a class="headerlink" href="#muatation-py" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mutatesingleallele-p-chrom-chars">
+<h3>mutateSingleAllele(p, chrom, chars)<a class="headerlink" href="#mutatesingleallele-p-chrom-chars" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id39">
+<h4>Preconditions<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">chrom</span></tt> is an integer</p>
+</li>
+<li><p class="first">The value of each gene in the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">p</span></tt> exists in <tt class="docutils literal"><span class="pre">chars</span></tt></p>
+</li>
+<li><dl class="first docutils">
+<dt>Exactly one of the following two conditions must be satisfied:</dt>
+<dd><ol class="first last loweralpha simple">
+<li>0 &lt;= <tt class="docutils literal"><span class="pre">index</span></tt> &lt;= len(self.chromosomes)</li>
+<li>len(self.chromosomes)*-1 &gt;= index &gt;= -1</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="id40">
+<h4>Postconditions<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>A new instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
+<li>The <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of the returned individual is not equal to the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">p</span></tt></li>
+<li>All other chromosomes of the returned individual are exactly the same as the corresponding chromosome of <tt class="docutils literal"><span class="pre">p</span></tt></li>
+</ol>
+</div>
+</div>
+<div class="section" id="swapmut-p-chrom">
+<h3>swapmut(p, chrom)<a class="headerlink" href="#swapmut-p-chrom" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id41">
+<h4>Preconditions<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">chrom</span></tt> is an integer</p>
+</li>
+<li><dl class="first docutils">
+<dt>Exactly one of the following two conditions are satisfied:</dt>
+<dd><ol class="first last loweralpha simple">
+<li>0 &lt;= <tt class="docutils literal"><span class="pre">chrom</span></tt> &lt;= <tt class="docutils literal"><span class="pre">len(p.chromosomes)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">len(self.chromosomes)*-1</span></tt> &gt;= <tt class="docutils literal"><span class="pre">index</span></tt> &gt;= -1</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="id42">
+<h4>Postconditions<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchaged</li>
+<li>An instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
+<li>All values in the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">p</span></tt> are present in the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of the output individual</li>
+<li>The <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosomes of the output individual and <tt class="docutils literal"><span class="pre">p</span></tt> are not equal</li>
+<li>There are exactly two genes in the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromome of <tt class="docutils literal"><span class="pre">p</span></tt> and the returned individual, whose values differ</li>
+</ol>
+</div>
+</div>
+<div class="section" id="revmut-p-chrom">
+<h3>revmut(p, chrom)<a class="headerlink" href="#revmut-p-chrom" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id43">
+<h4>Preconditions<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">chrom</span></tt> is an integer</p>
+</li>
+<li><dl class="first docutils">
+<dt>Exactly one of the following two conditions are satisfied:</dt>
+<dd><ol class="first last loweralpha simple">
+<li>0 &lt;= <tt class="docutils literal"><span class="pre">chrom</span></tt> &lt;= <tt class="docutils literal"><span class="pre">len(p.chromosomes)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">len(self.chromosomes)*-1</span></tt> &gt;= <tt class="docutils literal"><span class="pre">index</span></tt> &gt;= -1</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="id44">
+<h4>Postconditions<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchaged</li>
+<li>An instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
+<li>All values in the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">p</span></tt> are present in the <tt class="docutils literal"><span class="pre">`chrom</span></tt> th chromosome of the output individual</li>
+<li>The <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosomes of the output individual and <tt class="docutils literal"><span class="pre">p</span></tt> are not equal</li>
+</ol>
+</div>
+</div>
+<div class="section" id="shufflemut-p-chrom">
+<h3>shufflemut(p, chrom)<a class="headerlink" href="#shufflemut-p-chrom" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><dl class="docutils">
+<dt>post[p, chrom]:</dt>
+<dd>__old__.p == p
+__old__.chrom == chrom
+isinstance(__return__, Individual)
+__return__.chromosomes[chrom] != p.chromosomes[chrom]
+forall(p.chromosomes[chrom], lambda e: e in __return__.chromosomes[chrom])
+forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])</dd>
+</dl>
+</div></blockquote>
+<div class="section" id="id45">
+<h4>Preconditions<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">chrom</span></tt> is an integer</p>
+</li>
+<li><dl class="first docutils">
+<dt>Exactly one of the following two conditions are satisfied:</dt>
+<dd><ol class="first last loweralpha simple">
+<li>0 &lt;= <tt class="docutils literal"><span class="pre">chrom</span></tt> &lt;= <tt class="docutils literal"><span class="pre">len(p.chromosomes)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">len(self.chromosomes)*-1</span></tt> &gt;= <tt class="docutils literal"><span class="pre">index</span></tt> &gt;= -1</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="id46">
+<h4>Postconditions<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchaged</li>
+<li>An instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
+<li>All values in the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">p</span></tt> are present in the <tt class="docutils literal"><span class="pre">`chrom</span></tt> th chromosome of the output individual</li>
+<li>The <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosomes of the output individual and <tt class="docutils literal"><span class="pre">p</span></tt> are not equal</li>
+<li>The length of the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of the returned individual is exactly equal to the length of the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">p</span></tt></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Contracts</a><ul>
+<li><a class="reference internal" href="#ga-py">GA.py</a><ul>
+<li><a class="reference internal" href="#the-main-ga-runner">The main GA runner</a><ul>
+<li><a class="reference internal" href="#preconditions">Preconditions</a></li>
+<li><a class="reference internal" href="#postconditions">Postconditions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#individual-py">Individual.py</a><ul>
+<li><a class="reference internal" href="#individual-hash-self-other"><tt class="docutils literal"><span class="pre">Individual.__hash__(self,</span> <span class="pre">other)</span></tt></a><ul>
+<li><a class="reference internal" href="#id1">Preconditions</a></li>
+<li><a class="reference internal" href="#id2">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#individual-eq-self-other"><tt class="docutils literal"><span class="pre">Individual.__eq__(self,</span> <span class="pre">other)</span></tt></a><ul>
+<li><a class="reference internal" href="#id3">Preconditions</a></li>
+<li><a class="reference internal" href="#id4">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#individual-len-self"><tt class="docutils literal"><span class="pre">Individual.__len__(self)</span></tt></a><ul>
+<li><a class="reference internal" href="#id5">Preconditions</a></li>
+<li><a class="reference internal" href="#id6">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#individual-setitem-self-index-obj"><tt class="docutils literal"><span class="pre">Individual.__setitem__(self,</span> <span class="pre">index,</span> <span class="pre">obj)</span></tt></a><ul>
+<li><a class="reference internal" href="#id7">Preconditions</a></li>
+<li><a class="reference internal" href="#id8">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#individual-contains-self-chromosome"><tt class="docutils literal"><span class="pre">Individual.__contains__(self,</span> <span class="pre">chromosome)</span></tt></a><ul>
+<li><a class="reference internal" href="#id9">Preconditions</a></li>
+<li><a class="reference internal" href="#id10">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#individual-repr-self"><tt class="docutils literal"><span class="pre">Individual.__repr__(self)</span></tt></a><ul>
+<li><a class="reference internal" href="#id11">Preconditions</a></li>
+<li><a class="reference internal" href="#id12">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#individual-append-self-chrom"><tt class="docutils literal"><span class="pre">Individual.append(self,</span> <span class="pre">chrom)</span></tt></a><ul>
+<li><a class="reference internal" href="#id13">Preconditions</a></li>
+<li><a class="reference internal" href="#id14">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#individual-count-self-sub-chrom"><tt class="docutils literal"><span class="pre">Individual.count(self,</span> <span class="pre">sub,</span> <span class="pre">chrom)</span></tt></a><ul>
+<li><a class="reference internal" href="#id15">Preconditions</a></li>
+<li><a class="reference internal" href="#id16">Postconditions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#population-py">population.py</a><ul>
+<li><a class="reference internal" href="#genpop-n-chromgenfuncs-chromgenparams"><tt class="docutils literal"><span class="pre">genPop(N,</span> <span class="pre">chromGenfuncs,</span> <span class="pre">chromGenParams)</span></tt></a><ul>
+<li><a class="reference internal" href="#id17">Preconditions</a></li>
+<li><a class="reference internal" href="#id18">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gencharschrom-l-chars"><tt class="docutils literal"><span class="pre">genCharsChrom(l,</span> <span class="pre">chars)</span></tt></a><ul>
+<li><a class="reference internal" href="#id19">Preconditions</a></li>
+<li><a class="reference internal" href="#id20">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gentour-numcities"><tt class="docutils literal"><span class="pre">genTour(numCities)</span></tt></a><ul>
+<li><a class="reference internal" href="#id21">Preconditions</a></li>
+<li><a class="reference internal" href="#id22">Postconditions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#score-py">score.py</a><ul>
+<li><a class="reference internal" href="#score-p-scorefuncs-scorefuncparams-scores"><tt class="docutils literal"><span class="pre">score(p,</span> <span class="pre">scorefuncs,</span> <span class="pre">scorefuncparams,</span> <span class="pre">SCORES)</span></tt></a><ul>
+<li><a class="reference internal" href="#id23">Preconditions</a></li>
+<li><a class="reference internal" href="#id24">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scoreones-p"><tt class="docutils literal"><span class="pre">scoreOnes(p)</span></tt></a><ul>
+<li><a class="reference internal" href="#id25">Preconditions</a></li>
+<li><a class="reference internal" href="#id26">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scoretsp-tour-dist">scoreTSP(tour, DIST)</a><ul>
+<li><a class="reference internal" href="#id27">Preconditions</a></li>
+<li><a class="reference internal" href="#loop-invariant">Loop Invariant</a></li>
+<li><a class="reference internal" href="#id28">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getroulettewheel-pop-scores">getRouletteWheel(pop, SCORES)</a><ul>
+<li><a class="reference internal" href="#id29">Preconditions</a></li>
+<li><a class="reference internal" href="#id30">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#roulettewheelselect-wheel-s-none">rouletteWheelSelect(wheel, s=None)</a><ul>
+<li><a class="reference internal" href="#id31">Preconditions</a></li>
+<li><a class="reference internal" href="#id32">Postconditions:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tournamentselect-pop-t-w-n-scorefunc-scoreparams">tournamentSelect(pop, T, w, n, scorefunc, scoreparams)</a><ul>
+<li><a class="reference internal" href="#id33">Preconditions</a></li>
+<li><a class="reference internal" href="#id34">Postconditions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#crossover-py">crossover.py</a><ul>
+<li><a class="reference internal" href="#crossones-p1-p2-chrom">crossOnes(p1, p2, chrom)</a><ul>
+<li><a class="reference internal" href="#id35">Preconditions</a></li>
+<li><a class="reference internal" href="#id36">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#injectionco-p1-p2-chrom">injectionco(p1, p2, chrom)</a><ul>
+<li><a class="reference internal" href="#id37">Preconditions</a></li>
+<li><a class="reference internal" href="#id38">Postconditions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#muatation-py">muatation.py</a><ul>
+<li><a class="reference internal" href="#mutatesingleallele-p-chrom-chars">mutateSingleAllele(p, chrom, chars)</a><ul>
+<li><a class="reference internal" href="#id39">Preconditions</a></li>
+<li><a class="reference internal" href="#id40">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#swapmut-p-chrom">swapmut(p, chrom)</a><ul>
+<li><a class="reference internal" href="#id41">Preconditions</a></li>
+<li><a class="reference internal" href="#id42">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#revmut-p-chrom">revmut(p, chrom)</a><ul>
+<li><a class="reference internal" href="#id43">Preconditions</a></li>
+<li><a class="reference internal" href="#id44">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#shufflemut-p-chrom">shufflemut(p, chrom)</a><ul>
+<li><a class="reference internal" href="#id45">Preconditions</a></li>
+<li><a class="reference internal" href="#id46">Postconditions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/Documentation/contracts.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Genetic 3.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Ashwin Panchapakesan.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -42,9 +42,31 @@ clean:
 	-rm -rf $(BUILDDIR)/*
 
 html:
+	@echo "adding correct version info from ../setup.py into conf.py"
+	sed -i '' -e "s/release = '.*'/release = '`grep version ../setup.py | cut -d'"' -f2`'/g" conf.py
+	@echo "Making LaTeX"
+	make latex
+	( cd _build/latex/; make )
+	@echo "Done making LaTeX"
+	@echo "Copying PDF to Static"
+	cp _build/latex/Genetic.pdf _build/html/_static/
+	@echo "Copy PDF to Static... DONE"
+	@echo "Adding PDF to HTML"
+	sed -i '' 's/lorem\ ipsum/\<a href="_static\/Genetic.pdf"\>Download\ Me\<\/a\>/g' _build/html/downloadPDF.html
+	@echo "Done adding PDF to HTML"
+	@echo "Removing LaTeX dir"
+	@echo "Done removing LaTeX dir"
+
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+	@echo "Bundling Documentation into doc.zip"
+	( cd _build/html; zip -r doc.zip * )
+	@echo "Docs are zipped in _build/html/doc.zip"
+	@echo "Uploading docs to PyPI"
+	( cd ..; python setup.py upload_sphinx )
+	@echo "Upload to PyPI complete"
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml

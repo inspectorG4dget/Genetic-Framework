@@ -1,4 +1,9 @@
+.DS_Store
 *.pyc
 *PKG-INFO
 *MANIFEST.in
 Pyvolution*.tar.gz
+Pyvolution.egg.info
+*environment.pickle
+setup.py
+setup.cfg

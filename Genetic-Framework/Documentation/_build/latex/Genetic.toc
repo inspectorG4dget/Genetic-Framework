@@ -2,6 +2,7 @@
 \contentsline {chapter}{\numberline {1}Required Installations}{3}{chapter.1}
 \contentsline {section}{\numberline {1.1}Python 2.7}{3}{section.1.1}
 \contentsline {section}{\numberline {1.2}PyGame (and all its dependencies)}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}pycontract}{3}{section.1.3}
 \contentsline {chapter}{\numberline {2}Overview - How to use this Framework}{5}{chapter.2}
 \contentsline {section}{\numberline {2.1}individual.py}{5}{section.2.1}
 \contentsline {section}{\numberline {2.2}population.py}{5}{section.2.2}
@@ -51,38 +52,40 @@
 \contentsline {chapter}{\numberline {9}GA.py}{21}{chapter.9}
 \contentsline {section}{\numberline {9.1}runTSPGA(kwargs)}{21}{section.9.1}
 \contentsline {section}{\numberline {9.2}runGA(kwargs)}{21}{section.9.2}
+\contentsline {section}{\numberline {9.3}run(kwargs)}{21}{section.9.3}
 \contentsline {chapter}{\numberline {10}settings.py}{23}{chapter.10}
 \contentsline {section}{\numberline {10.1}Fields}{23}{section.10.1}
-\contentsline {subsection}{\numberline {10.1.1}testmode}{23}{subsection.10.1.1}
-\contentsline {subsection}{\numberline {10.1.2}maxGens}{23}{subsection.10.1.2}
-\contentsline {subsection}{\numberline {10.1.3}targetscore}{23}{subsection.10.1.3}
-\contentsline {subsection}{\numberline {10.1.4}popsize}{23}{subsection.10.1.4}
-\contentsline {subsection}{\numberline {10.1.5}numCrossovers}{23}{subsection.10.1.5}
-\contentsline {subsection}{\numberline {10.1.6}SCORES}{24}{subsection.10.1.6}
-\contentsline {subsection}{\numberline {10.1.7}genfunc}{24}{subsection.10.1.7}
-\contentsline {subsection}{\numberline {10.1.8}genparams}{24}{subsection.10.1.8}
-\contentsline {subsection}{\numberline {10.1.9}scorefunc}{24}{subsection.10.1.9}
-\contentsline {subsection}{\numberline {10.1.10}scoreparams}{24}{subsection.10.1.10}
-\contentsline {subsection}{\numberline {10.1.11}selectfunc}{24}{subsection.10.1.11}
-\contentsline {subsection}{\numberline {10.1.12}selectparams}{24}{subsection.10.1.12}
-\contentsline {subsection}{\numberline {10.1.13}crossfunc}{25}{subsection.10.1.13}
-\contentsline {subsection}{\numberline {10.1.14}crossparams}{25}{subsection.10.1.14}
-\contentsline {subsection}{\numberline {10.1.15}mutfunc}{25}{subsection.10.1.15}
-\contentsline {subsection}{\numberline {10.1.16}mutparams}{25}{subsection.10.1.16}
-\contentsline {subsection}{\numberline {10.1.17}crossprob}{25}{subsection.10.1.17}
-\contentsline {subsection}{\numberline {10.1.18}mutprob}{25}{subsection.10.1.18}
-\contentsline {subsection}{\numberline {10.1.19}rouletteWheelRequireres}{25}{subsection.10.1.19}
-\contentsline {subsection}{\numberline {10.1.20}getWheel}{25}{subsection.10.1.20}
-\contentsline {subsection}{\numberline {10.1.21}visualize}{25}{subsection.10.1.21}
-\contentsline {subsection}{\numberline {10.1.22}screenWidth}{26}{subsection.10.1.22}
-\contentsline {subsection}{\numberline {10.1.23}screenHeight}{26}{subsection.10.1.23}
-\contentsline {subsection}{\numberline {10.1.24}makeScreenParams}{26}{subsection.10.1.24}
-\contentsline {subsection}{\numberline {10.1.25}drawParams}{26}{subsection.10.1.25}
-\contentsline {subsection}{\numberline {10.1.26}fon}{26}{subsection.10.1.26}
-\contentsline {subsection}{\numberline {10.1.27}fontParams}{26}{subsection.10.1.27}
-\contentsline {subsection}{\numberline {10.1.28}labelParams}{26}{subsection.10.1.28}
-\contentsline {subsection}{\numberline {10.1.29}sanity}{26}{subsection.10.1.29}
-\contentsline {subsection}{\numberline {10.1.30}answer}{26}{subsection.10.1.30}
+\contentsline {subsection}{\numberline {10.1.1}algorithm}{23}{subsection.10.1.1}
+\contentsline {subsection}{\numberline {10.1.2}testmode}{23}{subsection.10.1.2}
+\contentsline {subsection}{\numberline {10.1.3}maxGens}{23}{subsection.10.1.3}
+\contentsline {subsection}{\numberline {10.1.4}targetscore}{23}{subsection.10.1.4}
+\contentsline {subsection}{\numberline {10.1.5}popsize}{23}{subsection.10.1.5}
+\contentsline {subsection}{\numberline {10.1.6}numCrossovers}{23}{subsection.10.1.6}
+\contentsline {subsection}{\numberline {10.1.7}SCORES}{24}{subsection.10.1.7}
+\contentsline {subsection}{\numberline {10.1.8}genfunc}{24}{subsection.10.1.8}
+\contentsline {subsection}{\numberline {10.1.9}genparams}{24}{subsection.10.1.9}
+\contentsline {subsection}{\numberline {10.1.10}scorefunc}{24}{subsection.10.1.10}
+\contentsline {subsection}{\numberline {10.1.11}scoreparams}{24}{subsection.10.1.11}
+\contentsline {subsection}{\numberline {10.1.12}selectfunc}{24}{subsection.10.1.12}
+\contentsline {subsection}{\numberline {10.1.13}selectparams}{24}{subsection.10.1.13}
+\contentsline {subsection}{\numberline {10.1.14}crossfunc}{25}{subsection.10.1.14}
+\contentsline {subsection}{\numberline {10.1.15}crossparams}{25}{subsection.10.1.15}
+\contentsline {subsection}{\numberline {10.1.16}mutfunc}{25}{subsection.10.1.16}
+\contentsline {subsection}{\numberline {10.1.17}mutparams}{25}{subsection.10.1.17}
+\contentsline {subsection}{\numberline {10.1.18}crossprob}{25}{subsection.10.1.18}
+\contentsline {subsection}{\numberline {10.1.19}mutprob}{25}{subsection.10.1.19}
+\contentsline {subsection}{\numberline {10.1.20}rouletteWheelRequireres}{25}{subsection.10.1.20}
+\contentsline {subsection}{\numberline {10.1.21}getWheel}{25}{subsection.10.1.21}
+\contentsline {subsection}{\numberline {10.1.22}visualize}{25}{subsection.10.1.22}
+\contentsline {subsection}{\numberline {10.1.23}screenWidth}{26}{subsection.10.1.23}
+\contentsline {subsection}{\numberline {10.1.24}screenHeight}{26}{subsection.10.1.24}
+\contentsline {subsection}{\numberline {10.1.25}makeScreenParams}{26}{subsection.10.1.25}
+\contentsline {subsection}{\numberline {10.1.26}drawParams}{26}{subsection.10.1.26}
+\contentsline {subsection}{\numberline {10.1.27}fon}{26}{subsection.10.1.27}
+\contentsline {subsection}{\numberline {10.1.28}fontParams}{26}{subsection.10.1.28}
+\contentsline {subsection}{\numberline {10.1.29}labelParams}{26}{subsection.10.1.29}
+\contentsline {subsection}{\numberline {10.1.30}sanity}{26}{subsection.10.1.30}
+\contentsline {subsection}{\numberline {10.1.31}answer}{26}{subsection.10.1.31}
 \contentsline {chapter}{\numberline {11}visualization.py}{27}{chapter.11}
 \contentsline {section}{\numberline {11.1}makeScreen(W, H)}{27}{section.11.1}
 \contentsline {section}{\numberline {11.2}normalize(point, (olow, ohigh), (low, high))}{27}{section.11.2}
@@ -112,9 +115,10 @@
 \contentsline {subsection}{\numberline {12.2.6}\texttt {Individual.\_\_repr\_\_(self)}}{31}{subsection.12.2.6}
 \contentsline {subsubsection}{Preconditions}{31}{subsubsection*.20}
 \contentsline {subsubsection}{Postconditions}{31}{subsubsection*.21}
+\contentsline {subsection}{\numberline {12.2.7}\texttt {Individual.append(self, chrom)}}{31}{subsection.12.2.7}
 \contentsline {subsubsection}{Preconditions}{31}{subsubsection*.22}
 \contentsline {subsubsection}{Postconditions}{31}{subsubsection*.23}
-\contentsline {subsection}{\numberline {12.2.7}\texttt {Individual.count(self, sub, chrom)}}{31}{subsection.12.2.7}
+\contentsline {subsection}{\numberline {12.2.8}\texttt {Individual.count(self, sub, chrom)}}{31}{subsection.12.2.8}
 \contentsline {subsubsection}{Preconditions}{31}{subsubsection*.24}
 \contentsline {subsubsection}{Postconditions}{31}{subsubsection*.25}
 \contentsline {section}{\numberline {12.3}population.py}{31}{section.12.3}
@@ -167,5 +171,6 @@
 \contentsline {subsection}{\numberline {12.6.4}shufflemut(p, chrom)}{38}{subsection.12.6.4}
 \contentsline {subsubsection}{Preconditions}{38}{subsubsection*.55}
 \contentsline {subsubsection}{Postconditions}{38}{subsubsection*.56}
-\contentsline {chapter}{\numberline {13}Indices and tables}{39}{chapter.13}
-\contentsline {chapter}{Index}{41}{section*.57}
+\contentsline {chapter}{\numberline {13}Download the PDF}{39}{chapter.13}
+\contentsline {chapter}{\numberline {14}Indices and tables}{41}{chapter.14}
+\contentsline {chapter}{Index}{43}{section*.57}
