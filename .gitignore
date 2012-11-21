@@ -7,3 +7,4 @@ Pyvolution.egg.info
 *environment.pickle
 setup.py
 setup.cfg
+*.swp
