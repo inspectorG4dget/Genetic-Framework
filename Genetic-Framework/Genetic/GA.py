@@ -55,6 +55,7 @@ def runTSPGA(kwargs):
 	
 	numcross = kwargs['numcross']
 	crossfunc = kwargs['crossfunc']
+	crossfuncs = kwargs['crossfuncs']
 	crossprob = kwargs['crossprob']
 	crossparams = kwargs['crossparams']
 
@@ -107,8 +108,8 @@ def runTSPGA(kwargs):
 			else:
 				p1, p2 = selectfunc(pop, *selectparams)
 			if rand() <= crossprob:
-				c1 = crossfunc(p1, p2, *crossparams)
-				c2 = crossfunc(p2, p1, *crossparams)
+				c1 = crossfunc(p1, p2, crossfuncs, crossparams)
+				c2 = crossfunc(p2, p1, crossfuncs, crossparams)
 				newpop.extend([c1,c2])
 		
 		for i,p in enumerate(newpop):
@@ -176,6 +177,7 @@ def runGA(kwargs, testmode=False):
 	
 	numcross = kwargs['numcross']
 	crossfunc = kwargs['crossfunc']
+	crossfuncs = kwargs['crossfuncs']
 	crossprob = kwargs['crossprob']
 	crossparams = kwargs['crossparams']
 
@@ -213,7 +215,7 @@ def runGA(kwargs, testmode=False):
 			else:
 				p1, p2 = selectfunc(pop, *selectparams)
 			if rand() <= crossprob:
-				p1, p2 = crossfunc(p1, p2, *crossparams)
+				p1, p2 = crossfunc(p1, p2, crossfuncs, crossparams)
 			newpop.extend([p1,p2])
 		
 		for i,p in enumerate(newpop):
@@ -263,10 +265,10 @@ def run(kwargs):
 if __name__ == "__main__":
 	print 'starting'
 	from Genetic import settings
-	kwargs = settings.getTSPSettings()
-	answer = run(kwargs)
+#	kwargs = settings.getTSPSettings()
+#	answer = run(kwargs)
 
-#	settings = settings.getOneMaxSettings()
-#	answer = run(settings)
+	settings = settings.getOneMaxSettings()
+	answer = run(settings)
 
 	print 'done'

@@ -83,8 +83,9 @@ def getTSPSettings():
 	numselect = 2
 	selectparams = (tournsize, numwinners, numselect, scorefunc, scoreparams)
 	
-	crossfunc = crossover.injectionco
-	crossparams = (0,)
+	crossfunc = crossover.oneChildCrossover
+	crossfuncs = (crossover.injectionco,)
+	crossparams = [()]
 	
 	mutfunc = mutation.revmut
 	mutparams = (0,)
@@ -112,7 +113,7 @@ def getTSPSettings():
 				genfunc genparams
 				scorefunc scoreparams 
 				selectfunc selectparams 
-				crossfunc crossparams crossprob numcross
+				crossfunc crossfuncs crossparams crossprob numcross
 				mutfunc mutparams mutprob 
 				getWheel""".split()
 	answer = {
@@ -129,6 +130,7 @@ def getTSPSettings():
 			'selectfunc' : selectfunc,
 			'selectparams' : selectparams,
 			'crossfunc' : crossfunc,
+			'crossfuncs' : crossfuncs,
 			'crossprob' : crossprob,
 			'numcross' : numCrossovers,
 			'crossparams' : crossparams,
@@ -151,14 +153,14 @@ def getTSPSettings():
 
 def getOneMaxSettings():
 	
-	maxGens = 1000
+	maxGens = 10
 	targetscore = 30
 	popsize = 1000
 	alleles0 = '01'
 	chromlen0 = 30
 	numCrossovers = popsize
 	SCORES = {}
-	testmode = False
+	testmode = True
 	
 	genfunc = population.genPop
 	genparams = (popsize, [population.genCharsChrom], [(chromlen0, alleles0)])
@@ -178,8 +180,9 @@ def getOneMaxSettings():
 	crossprob = 0.9
 	mutprob = 0.05
 	
-	crossfunc = crossover.crossOnes
-	crossparams = (0,)
+	crossfunc = crossover.twoChildCrossover
+	crossfuncs = (crossover.crossOnes,)
+	crossparams = [()]
 	
 	mutfunc = mutation.mutateSingleAllele
 	mutparams = (0, alleles0)
@@ -191,7 +194,7 @@ def getOneMaxSettings():
 				genfunc genparams
 				scorefunc scoreparams 
 				selectfunc selectparams 
-				crossfunc crossparams crossprob numcross
+				crossfunc crossfuncs crossparams crossprob numcross
 				mutfunc mutparams mutprob 
 				getWheel""".split()
 	answer = {
@@ -208,6 +211,7 @@ def getOneMaxSettings():
 			'selectfunc' : selectfunc,
 			'selectparams' : selectparams,
 			'crossfunc' : crossfunc,
+			'crossfuncs' : crossfuncs,
 			'crossprob' : crossprob,
 			'numcross' : numCrossovers,
 			'crossparams' : crossparams,

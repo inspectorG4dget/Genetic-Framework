@@ -84,7 +84,11 @@ A tuple of parameters (in the correct order) for the selection function
 
 crossfunc
 ----------
-The function that performs crossover between two individuals
+The function that performs crossover between two individuals. This is usually either ``oneChildCrossover`` or ``twoChildCrossover``. These crossover functions return 1 or 2 children as the result of crossover, respectively.
+
+crossfuncs
+-----------
+A list of crossover functions. The ``i``th function in this list will be used (along with the ``i``th tuple of parameters from ``crossparams``) to crossover the ``i``th pair of corresponding chromosomes of two individuals.
 
 crossparams
 ------------

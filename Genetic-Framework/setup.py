@@ -13,7 +13,7 @@ requires = []
 
 setup(
 	name = 'Pyvolution',
-	version = "1.0.2",
+	version = "1.1",
 	description = "Evolutionary Algorithms Framework",
 	long_description="Evolutionary Algorithms Framework",
 	author = 'Ashwin Panchapakesan',

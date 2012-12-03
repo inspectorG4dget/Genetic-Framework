@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>crossover.py &mdash; Genetic 1.0.2 documentation</title>
+    <title>crossover.py &mdash; Genetic 1.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.0.2',
+        VERSION:     '1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Genetic 1.0.2 documentation" href="index.html" />
+    <link rel="top" title="Genetic 1.1 documentation" href="index.html" />
     <link rel="next" title="mutaion.py" href="mutation.py.html" />
     <link rel="prev" title="selection.py" href="selection.py.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="selection.py.html" title="selection.py"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Genetic 1.0.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Genetic 1.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,23 +54,43 @@
             
   <div class="section" id="crossover-py">
 <h1>crossover.py<a class="headerlink" href="#crossover-py" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="crossones-p1-p2-chrom">
-<h2>crossOnes(p1, p2, chrom)<a class="headerlink" href="#crossones-p1-p2-chrom" title="Permalink to this headline">¶</a></h2>
-<p>Take two individuals (<tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> ) and a chromosome number (<tt class="docutils literal"><span class="pre">chrom</span></tt>).
-Crossover the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt>.
-Return two new individuals that are the same as <tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> , but with the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome replaced with one of the children from the crossover</p>
+<div class="section" id="crossones-p1-p2">
+<h2>crossOnes(p1, p2)<a class="headerlink" href="#crossones-p1-p2" title="Permalink to this headline">¶</a></h2>
+<p>Take two chromosomes (<tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> ).
+Cross them over.
+Return two new child chromosomes</p>
 </div>
 <div class="section" id="injectionco-p1-p2-chrom">
 <h2>injectionco(p1, p2, chrom)<a class="headerlink" href="#injectionco-p1-p2-chrom" title="Permalink to this headline">¶</a></h2>
-<p>Take two individuals (<tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> ) and a chromosome number (<tt class="docutils literal"><span class="pre">chrom</span></tt>).
-Crossover the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of <tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> as follows:</p>
+<p>Take two chromosomes <tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt>.
+Crossover them over as follows:</p>
 <ol class="arabic simple">
 <li>Select distinct points A &lt; B between 0 and <tt class="docutils literal"><span class="pre">len(p1.chromosomes[chrom])</span></tt></li>
 <li>Make an empty child chromosome of length <tt class="docutils literal"><span class="pre">len(p1.chromosomes[chrom])</span></tt></li>
 <li>Copy over the genes of <tt class="docutils literal"><span class="pre">p1</span></tt> from A to (but not including) B into the corresponding genes of the child</li>
 <li>Fill in the rest of the genes of the child with the genes from <tt class="docutils literal"><span class="pre">p2</span></tt>, in the order in which they appear in <tt class="docutils literal"><span class="pre">p2</span></tt>, making sure not to include alleles that already exist in the child</li>
 </ol>
-<p>Return a new individual that are the same as <tt class="docutils literal"><span class="pre">p1</span></tt> , but with the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome replaced with the child from the crossover</p>
+<p>Return the child chromosome</p>
+</div>
+<div class="section" id="twochildcrossover-p1-p2-crossfuncs-crossparams">
+<h2>twoChildCrossover(p1,p2, crossfuncs, crossparams)<a class="headerlink" href="#twochildcrossover-p1-p2-crossfuncs-crossparams" title="Permalink to this headline">¶</a></h2>
+<p>Take two parents, <tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt>.
+Assume that <tt class="docutils literal"><span class="pre">crossfuncs</span></tt> and <tt class="docutils literal"><span class="pre">crossparams</span></tt> are of equal length
+Make two empty individuals to be returned as the answer
+For each <tt class="docutils literal"><span class="pre">i``th</span> <span class="pre">pair</span> <span class="pre">of</span> <span class="pre">corresponding</span> <span class="pre">chromosomes</span> <span class="pre">in</span> <span class="pre">``p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt>, cross them over with the corresponding <tt class="docutils literal"><span class="pre">i``th</span> <span class="pre">function</span> <span class="pre">in</span> <span class="pre">``crossfuncs</span></tt> (and pass in the <tt class="docutils literal"><span class="pre">i``th</span> <span class="pre">tuple</span> <span class="pre">of</span> <span class="pre">parameters</span> <span class="pre">from</span> <span class="pre">``crossparams</span></tt>)
+It is assumed that each function in <tt class="docutils literal"><span class="pre">crossparams</span></tt> returns two child chromosomes.
+When crossover on each pair of chromosomes is complete, add the first child chromosome to the first child individual to be returned and the second child chromosome to the second child individual to be returned.
+When all crossover operations are complete, return the two child individuals as the product of crossing over <tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt>.</p>
+</div>
+<div class="section" id="onechildcrossover-p1-p2-crossfuncs-crossparams">
+<h2>oneChildCrossover(p1, p2, crossfuncs, crossparams)<a class="headerlink" href="#onechildcrossover-p1-p2-crossfuncs-crossparams" title="Permalink to this headline">¶</a></h2>
+<p>Take two parents, <tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt>.
+Assume that <tt class="docutils literal"><span class="pre">crossfuncs</span></tt> and <tt class="docutils literal"><span class="pre">crossparams</span></tt> are of equal length
+Make an empty individual to be returned as the answer
+For each <tt class="docutils literal"><span class="pre">i``th</span> <span class="pre">pair</span> <span class="pre">of</span> <span class="pre">corresponding</span> <span class="pre">chromosomes</span> <span class="pre">in</span> <span class="pre">``p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt>, cross them over with the corresponding <tt class="docutils literal"><span class="pre">i``th</span> <span class="pre">function</span> <span class="pre">in</span> <span class="pre">``crossfuncs</span></tt> (and pass in the <tt class="docutils literal"><span class="pre">i``th</span> <span class="pre">tuple</span> <span class="pre">of</span> <span class="pre">parameters</span> <span class="pre">from</span> <span class="pre">``crossparams</span></tt>)
+It is assumed that each function in <tt class="docutils literal"><span class="pre">crossparams</span></tt> returns one child chromosome
+When crossover on each pair of chromosomes is complete, add the child chromosome to the child individual to be returned
+When all crossover operations are complete, return the child individual as the product of crossing over <tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt>.</p>
 </div>
 </div>
 
@@ -83,8 +103,10 @@ Crossover the <tt class="docutils literal"><span class="pre">chrom</span></tt> t
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">crossover.py</a><ul>
-<li><a class="reference internal" href="#crossones-p1-p2-chrom">crossOnes(p1, p2, chrom)</a></li>
+<li><a class="reference internal" href="#crossones-p1-p2">crossOnes(p1, p2)</a></li>
 <li><a class="reference internal" href="#injectionco-p1-p2-chrom">injectionco(p1, p2, chrom)</a></li>
+<li><a class="reference internal" href="#twochildcrossover-p1-p2-crossfuncs-crossparams">twoChildCrossover(p1,p2, crossfuncs, crossparams)</a></li>
+<li><a class="reference internal" href="#onechildcrossover-p1-p2-crossfuncs-crossparams">oneChildCrossover(p1, p2, crossfuncs, crossparams)</a></li>
 </ul>
 </li>
 </ul>
@@ -129,7 +151,7 @@ Crossover the <tt class="docutils literal"><span class="pre">chrom</span></tt> t
         <li class="right" >
           <a href="selection.py.html" title="selection.py"
              >previous</a> |</li>
-        <li><a href="index.html">Genetic 1.0.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Genetic 1.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

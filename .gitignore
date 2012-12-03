@@ -8,3 +8,5 @@ Pyvolution.egg.info
 setup.py
 setup.cfg
 *.swp
+*.buildinfo
+Genetic-Framework/Documentation/_build/latex/*

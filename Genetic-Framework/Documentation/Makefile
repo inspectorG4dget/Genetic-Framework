@@ -55,6 +55,7 @@ html:
 	sed -i '' 's/lorem\ ipsum/\<a href="_static\/Genetic.pdf"\>Download\ Me\<\/a\>/g' _build/html/downloadPDF.html
 	@echo "Done adding PDF to HTML"
 	@echo "Removing LaTeX dir"
+	rm -rf _build/latex
 	@echo "Done removing LaTeX dir"
 
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
@@ -67,6 +68,8 @@ html:
 	@echo "Uploading docs to PyPI"
 	( cd ..; python setup.py upload_sphinx )
 	@echo "Upload to PyPI complete"
+	@echo "Removing Pyvolution.egg-info/, build/ and dist/"
+	rm -rf ../Pyvolution.egg-info/ ../build/ ../dist/
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml

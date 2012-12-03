@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Contracts &mdash; Genetic 1.0.2 documentation</title>
+    <title>Contracts &mdash; Genetic 1.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.0.2',
+        VERSION:     '1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Genetic 1.0.2 documentation" href="index.html" />
+    <link rel="top" title="Genetic 1.1 documentation" href="index.html" />
     <link rel="next" title="Download the PDF" href="downloadPDF.html" />
     <link rel="prev" title="visualization.py" href="visualization.py.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="visualization.py.html" title="visualization.py"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Genetic 1.0.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Genetic 1.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -455,8 +455,7 @@ __old__.DIST == DIST</dd>
 <div class="section" id="id35">
 <h4>Preconditions<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
-<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">chrom</span></tt> is an integer</li>
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are instances of <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt></li>
 </ol>
 </div>
 <div class="section" id="id36">
@@ -464,13 +463,12 @@ __old__.DIST == DIST</dd>
 <ol class="arabic">
 <li><p class="first">The inputs are unchaged</p>
 </li>
-<li><p class="first">A tuple of two instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</p>
+<li><p class="first">A tuple of two instances of <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt> is returned</p>
 </li>
 <li><dl class="first docutils">
-<dt>Each individual in the return tuple satisfies the following conditions:</dt>
+<dt>Each list in the return tuple satisfies the following conditions:</dt>
 <dd><ol class="first last loweralpha simple">
-<li>The <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome is a list of one-character strings</li>
-<li>The value of the ith gene of the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome is exactly the value of the ith gene of the <tt class="docutils literal"><span class="pre">chrom</span></tt> th chromosome of either <tt class="docutils literal"><span class="pre">p1</span></tt> or <tt class="docutils literal"><span class="pre">p2</span></tt></li>
+<li>each element in the list exists in either <tt class="docutils literal"><span class="pre">p1</span></tt> or <tt class="docutils literal"><span class="pre">p2</span></tt> or both.</li>
 </ol>
 </dd>
 </dl>
@@ -483,20 +481,63 @@ __old__.DIST == DIST</dd>
 <div class="section" id="id37">
 <h4>Preconditions<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
-<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">chrom</span></tt> is an integer</li>
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are instances of <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt></li>
 <li>The length of <cite>p1</cite> is exactly equal to the length of <tt class="docutils literal"><span class="pre">p2</span></tt></li>
-<li>For every element in <tt class="docutils literal"><span class="pre">p1</span></tt>, there exists an element in <tt class="docutils literal"><span class="pre">p2</span></tt> of the same type</li>
-<li>For every element in <tt class="docutils literal"><span class="pre">p2</span></tt>, there exists an element in <tt class="docutils literal"><span class="pre">p1</span></tt> of the same type</li>
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> is a permutation of [0… <tt class="docutils literal"><span class="pre">len(p1)-1</span></tt>]</li>
+<li><tt class="docutils literal"><span class="pre">p2</span></tt> is a permutation of [0… <tt class="docutils literal"><span class="pre">len(p2)-1</span></tt>]</li>
 </ol>
 </div>
 <div class="section" id="id38">
 <h4>Postconditions<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li>The inputs are unchaged</li>
-<li>A new object is returned</li>
-<li>The length of the returned object is eactly equal to the lengths of <tt class="docutils literal"><span class="pre">p1</span></tt> or <tt class="docutils literal"><span class="pre">p2</span></tt></li>
-<li>The function returns a permutation i.e. all elements in the returned object occur exactly once</li>
+<li>A new object is returned of type <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt></li>
+<li>The length of the returned list is exactly equal to the length of <tt class="docutils literal"><span class="pre">p1</span></tt> (and therefore of <tt class="docutils literal"><span class="pre">p2</span></tt> as well)</li>
+<li>The function returns a permutation i.e. all elements in the returned list occur exactly once</li>
+</ol>
+</div>
+</div>
+<div class="section" id="twochildcrossover-p1-p2-crossfuncs-crossparams">
+<h3>twoChildCrossover(p1,p2, crossfuncs, crossparams)<a class="headerlink" href="#twochildcrossover-p1-p2-crossfuncs-crossparams" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id39">
+<h4>Preconditions<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are of exactly equal length</li>
+<li>The number of elements in <tt class="docutils literal"><span class="pre">crossfuncs</span></tt> is exactly equal to the length of <tt class="docutils literal"><span class="pre">p1</span></tt> (and therefore of <tt class="docutils literal"><span class="pre">p2</span></tt>)</li>
+<li>The number of elements in <tt class="docutils literal"><span class="pre">crossfuncs</span></tt> is exactly equal to the number of elements in <tt class="docutils literal"><span class="pre">crossparams</span></tt></li>
+<li>Every element in <tt class="docutils literal"><span class="pre">crossparams</span></tt> is a tuple</li>
+</ol>
+</div>
+<div class="section" id="id40">
+<h4>Postconditions<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>A tuple of two elements of type <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
+<li>Each of the returned children has the same number of chromosomes as the parents</li>
+<li>Each chromosome in each of the children has the same length as the corresponding chromosome of both parents</li>
+</ol>
+</div>
+</div>
+<div class="section" id="onechildcrossover-p1-p2-crossfuncs-crossparams">
+<h3>oneChildCrossover(p1,p2, crossfuncs, crossparams)<a class="headerlink" href="#onechildcrossover-p1-p2-crossfuncs-crossparams" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id41">
+<h4>Preconditions<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are instances of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">p1</span></tt> and <tt class="docutils literal"><span class="pre">p2</span></tt> are of exactly equal length</li>
+<li>The number of elements in <tt class="docutils literal"><span class="pre">crossfuncs</span></tt> is exactly equal to the length of <tt class="docutils literal"><span class="pre">p1</span></tt> (and therefore of <tt class="docutils literal"><span class="pre">p2</span></tt>)</li>
+<li>The number of elements in <tt class="docutils literal"><span class="pre">crossfuncs</span></tt> is exactly equal to the number of elements in <tt class="docutils literal"><span class="pre">crossparams</span></tt></li>
+<li>Every element in <tt class="docutils literal"><span class="pre">crossparams</span></tt> is a tuple</li>
+</ol>
+</div>
+<div class="section" id="id42">
+<h4>Postconditions<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>The inputs are unchanged</li>
+<li>A tuple of one element of type <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
+<li>The returned child has the same number of chromosomes as the parents</li>
+<li>Each chromosome in the child has the same length as the corresponding chromosome of both parents</li>
 </ol>
 </div>
 </div>
@@ -505,8 +546,8 @@ __old__.DIST == DIST</dd>
 <h2>muatation.py<a class="headerlink" href="#muatation-py" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="mutatesingleallele-p-chrom-chars">
 <h3>mutateSingleAllele(p, chrom, chars)<a class="headerlink" href="#mutatesingleallele-p-chrom-chars" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id39">
-<h4>Preconditions<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id43">
+<h4>Preconditions<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
 <li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></p>
 </li>
@@ -525,8 +566,8 @@ __old__.DIST == DIST</dd>
 </li>
 </ol>
 </div>
-<div class="section" id="id40">
-<h4>Postconditions<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id44">
+<h4>Postconditions<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li>The inputs are unchanged</li>
 <li>A new instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
@@ -537,8 +578,8 @@ __old__.DIST == DIST</dd>
 </div>
 <div class="section" id="swapmut-p-chrom">
 <h3>swapmut(p, chrom)<a class="headerlink" href="#swapmut-p-chrom" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id41">
-<h4>Preconditions<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id45">
+<h4>Preconditions<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
 <li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></p>
 </li>
@@ -555,8 +596,8 @@ __old__.DIST == DIST</dd>
 </li>
 </ol>
 </div>
-<div class="section" id="id42">
-<h4>Postconditions<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id46">
+<h4>Postconditions<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li>The inputs are unchaged</li>
 <li>An instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
@@ -568,8 +609,8 @@ __old__.DIST == DIST</dd>
 </div>
 <div class="section" id="revmut-p-chrom">
 <h3>revmut(p, chrom)<a class="headerlink" href="#revmut-p-chrom" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id43">
-<h4>Preconditions<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id47">
+<h4>Preconditions<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
 <li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></p>
 </li>
@@ -586,8 +627,8 @@ __old__.DIST == DIST</dd>
 </li>
 </ol>
 </div>
-<div class="section" id="id44">
-<h4>Postconditions<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id48">
+<h4>Postconditions<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li>The inputs are unchaged</li>
 <li>An instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
@@ -609,8 +650,8 @@ forall(p.chromosomes[chrom], lambda e: e in __return__.chromosomes[chrom])
 forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])</dd>
 </dl>
 </div></blockquote>
-<div class="section" id="id45">
-<h4>Preconditions<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id49">
+<h4>Preconditions<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
 <li><p class="first"><tt class="docutils literal"><span class="pre">p</span></tt> is an instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt></p>
 </li>
@@ -627,8 +668,8 @@ forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])</dd>
 </li>
 </ol>
 </div>
-<div class="section" id="id46">
-<h4>Postconditions<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id50">
+<h4>Postconditions<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li>The inputs are unchaged</li>
 <li>An instance of <tt class="xref py py-class docutils literal"><span class="pre">Individual</span></tt> is returned</li>
@@ -764,27 +805,37 @@ forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])</dd>
 <li><a class="reference internal" href="#id38">Postconditions</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a class="reference internal" href="#muatation-py">muatation.py</a><ul>
-<li><a class="reference internal" href="#mutatesingleallele-p-chrom-chars">mutateSingleAllele(p, chrom, chars)</a><ul>
+<li><a class="reference internal" href="#twochildcrossover-p1-p2-crossfuncs-crossparams">twoChildCrossover(p1,p2, crossfuncs, crossparams)</a><ul>
 <li><a class="reference internal" href="#id39">Preconditions</a></li>
 <li><a class="reference internal" href="#id40">Postconditions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#swapmut-p-chrom">swapmut(p, chrom)</a><ul>
+<li><a class="reference internal" href="#onechildcrossover-p1-p2-crossfuncs-crossparams">oneChildCrossover(p1,p2, crossfuncs, crossparams)</a><ul>
 <li><a class="reference internal" href="#id41">Preconditions</a></li>
 <li><a class="reference internal" href="#id42">Postconditions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#revmut-p-chrom">revmut(p, chrom)</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#muatation-py">muatation.py</a><ul>
+<li><a class="reference internal" href="#mutatesingleallele-p-chrom-chars">mutateSingleAllele(p, chrom, chars)</a><ul>
 <li><a class="reference internal" href="#id43">Preconditions</a></li>
 <li><a class="reference internal" href="#id44">Postconditions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#shufflemut-p-chrom">shufflemut(p, chrom)</a><ul>
+<li><a class="reference internal" href="#swapmut-p-chrom">swapmut(p, chrom)</a><ul>
 <li><a class="reference internal" href="#id45">Preconditions</a></li>
 <li><a class="reference internal" href="#id46">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#revmut-p-chrom">revmut(p, chrom)</a><ul>
+<li><a class="reference internal" href="#id47">Preconditions</a></li>
+<li><a class="reference internal" href="#id48">Postconditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#shufflemut-p-chrom">shufflemut(p, chrom)</a><ul>
+<li><a class="reference internal" href="#id49">Preconditions</a></li>
+<li><a class="reference internal" href="#id50">Postconditions</a></li>
 </ul>
 </li>
 </ul>
@@ -833,7 +884,7 @@ forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])</dd>
         <li class="right" >
           <a href="visualization.py.html" title="visualization.py"
              >previous</a> |</li>
-        <li><a href="index.html">Genetic 1.0.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Genetic 1.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

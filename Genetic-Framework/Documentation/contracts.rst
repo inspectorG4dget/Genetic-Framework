@@ -313,34 +313,67 @@ crossOnes(p1, p2, chrom)
 
 Preconditions
 +++++++++++++
-1. ``p1`` and ``p2`` are instances of :class:`Individual`
-2. ``chrom`` is an integer
+1. ``p1`` and ``p2`` are instances of :class:`list`
 
 Postconditions
 +++++++++++++++
 1. The inputs are unchaged
-2. A tuple of two instances of :class:`Individual` is returned
-3. Each individual in the return tuple satisfies the following conditions:
-	a. The ``chrom`` th chromosome is a list of one-character strings
-	b. The value of the ith gene of the ``chrom`` th chromosome is exactly the value of the ith gene of the ``chrom`` th chromosome of either ``p1`` or ``p2``
+2. A tuple of two instances of :class:`list` is returned
+3. Each list in the return tuple satisfies the following conditions:
+	a. each element in the list exists in either ``p1`` or ``p2`` or both.
 
 injectionco(p1, p2, chrom)
 ---------------------------
 
 Preconditions
 ++++++++++++++
-1. ``p1`` and ``p2`` are instances of :class:`Individual`
-2. ``chrom`` is an integer
-3. The length of `p1` is exactly equal to the length of ``p2``
-4. For every element in ``p1``, there exists an element in ``p2`` of the same type
-5. For every element in ``p2``, there exists an element in ``p1`` of the same type
+1. ``p1`` and ``p2`` are instances of :class:`list`
+2. The length of `p1` is exactly equal to the length of ``p2``
+3. ``p1`` is a permutation of [0… ``len(p1)-1``]
+4. ``p2`` is a permutation of [0… ``len(p2)-1``]
 
 Postconditions
 ++++++++++++++
 1. The inputs are unchaged
-2. A new object is returned
-3. The length of the returned object is eactly equal to the lengths of ``p1`` or ``p2``
-4. The function returns a permutation i.e. all elements in the returned object occur exactly once
+2. A new object is returned of type :class:`list`
+3. The length of the returned list is exactly equal to the length of ``p1`` (and therefore of ``p2`` as well)
+4. The function returns a permutation i.e. all elements in the returned list occur exactly once
+
+twoChildCrossover(p1,p2, crossfuncs, crossparams)
+--------------------------------------------------
+
+Preconditions
+++++++++++++++
+1. ``p1`` and ``p2`` are instances of :class:`Individual`
+2. ``p1`` and ``p2`` are of exactly equal length
+3. The number of elements in ``crossfuncs`` is exactly equal to the length of ``p1`` (and therefore of ``p2``)
+4. The number of elements in ``crossfuncs`` is exactly equal to the number of elements in ``crossparams``
+5. Every element in ``crossparams`` is a tuple
+
+Postconditions
+++++++++++++++
+1. The inputs are unchanged
+2. A tuple of two elements of type :class:`Individual` is returned
+3. Each of the returned children has the same number of chromosomes as the parents
+4. Each chromosome in each of the children has the same length as the corresponding chromosome of both parents
+
+oneChildCrossover(p1,p2, crossfuncs, crossparams)
+--------------------------------------------------
+
+Preconditions
+++++++++++++++
+1. ``p1`` and ``p2`` are instances of :class:`Individual`
+2. ``p1`` and ``p2`` are of exactly equal length
+3. The number of elements in ``crossfuncs`` is exactly equal to the length of ``p1`` (and therefore of ``p2``)
+4. The number of elements in ``crossfuncs`` is exactly equal to the number of elements in ``crossparams``
+5. Every element in ``crossparams`` is a tuple
+
+Postconditions
+++++++++++++++
+1. The inputs are unchanged
+2. A tuple of one element of type :class:`Individual` is returned
+3. The returned child has the same number of chromosomes as the parents
+4. Each chromosome in the child has the same length as the corresponding chromosome of both parents
 
 muatation.py
 ============
