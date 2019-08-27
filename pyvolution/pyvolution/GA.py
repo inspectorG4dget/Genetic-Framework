@@ -14,261 +14,90 @@ Copyright 2012 Ashwin Panchapakesan
    limitations under the License.
 '''
 
-from Genetic import selection, visualization as vis
+import heapq
+import operator
+import pystitia
+
+import selection
+import sanity
+from individual import Individual
 
 from random import random as rand
-import logging as log
-import pygame as pg #@UnresolvedImport
+from tqdm.patch import tqdm, print
+from pystitia import contracts
 
-#for mod in [crossover, fitness, individual, mutation, population, selection, vis]:
-#	contract.checkmod(mod)
 
-log.basicConfig(format='%(levelname)s|%(message)s', level=log.DEBUG)
+@contracts(
+	preconditions=(
+		lambda args: sanity.sanity(args),
+		lambda args: hasattr(args, 'maxGens'),
+		lambda args: args.maxGens > 0,
+	),
+	postconditions=(
+		lambda args: __old__.args == args,
+		lambda args: __return__[0][1] >= args.targetscore or __return__[1] >= args.maxGens,
+		lambda: isinstance(__return__[0][0], Individual),
+	)
+)
+def runGA(args):
 
-def runTSPGA(kwargs):
-	"""
-		pre:
-			isinstance(kwargs, dict)
-			'maxGens' in kwargs
-			kwargs['maxGens'] > 0
-		
-		post[kwargs]:
-			__old__.kwargs == kwargs
-			__return__[0][1] >= kwargs['targetscore'] or __return__[1] == kwargs['maxGens']
-			isinstance(__return__[0][0], Individual)
-	"""
-	
-	# # # # # # PARAMETERS # # # # # #
-	
-	testmode = kwargs['testmode']
-	
-	maxGens = kwargs['maxGens']
-	targetscore = kwargs['targetscore']
-	genfunc = kwargs['genfunc']
-	genparams = kwargs['genparams']
-
-	scorefunc = kwargs['scorefunc']
-	scoreparams = kwargs['scoreparams']
-
-	selectfunc = kwargs['selectfunc']
-	selectparams = kwargs['selectparams']
-	
-	numcross = kwargs['numcross']
-	crossfunc = kwargs['crossfunc']
-	crossfuncs = kwargs['crossfuncs']
-	crossprob = kwargs['crossprob']
-	crossparams = kwargs['crossparams']
-
-	mutfunc = kwargs['mutfunc']
-	mutprob = kwargs['mutprob']
-	mutparams = kwargs['mutparams']
-	
-	SCORES = kwargs['SCORES']
-	visualize = kwargs['visualize']
-	getWheel = kwargs['getWheel']
-	
-	if visualize:
-		makeScreenParams = kwargs['makeScreenParams']
-		drawParams = kwargs['drawParams']
-		font = kwargs['font']
-		fontParams = kwargs['fontParams']
-		labelParams = kwargs['labelParams']
-
-	# # # # # # /PARAMETERS # # # # # #
-	
-	pop = genfunc(*genparams)
-	for p in pop:
+	pop = args.genfunc(args.genparams)
+	SCORES = args.SCORES
+	for p in tqdm(pop, desc='Computing Fitness'):
 		if p not in SCORES:
-			SCORES[p] = scorefunc(p, *scoreparams)
+			args.scoreparams.individual = p
+			SCORES[p] = args.scorefunc(args.scoreparams)
 	
-	best = max(SCORES, key=SCORES.__getitem__)
-	best = best, SCORES[best]	# indiv, score
-	
-	if visualize:
-		screen = vis.makeScreen(*makeScreenParams)
-		label = font.render("%d / %d" %(best[1], targetscore), *fontParams)
-		screen.blit(label, *labelParams)
-		pg.display.init()
-		vis.draw(best[0], screen, *drawParams)
-	
-	g = 0
-	while g < maxGens:
-		if testmode:
-			assert g < maxGens
-			assert best[1] < targetscore
+	best = max(SCORES.items(), key=operator.itemgetter(1))  # indiv, score
+
+	for g in tqdm(range(args.maxGens), desc="Highest fitness: {:05f}".format(best[1])):
+		if __testmode__:
+			assert g < args.maxGens
+			assert best[1] < args.targetscore
 			
-		if getWheel:
-			wheel = selection.getRouletteWheel(pop, SCORES)
-		
+		args.selectparams.population = pop
+		if args.getWheel:
+			args.selectparams.pop = pop
+			args.selectparams.wheel = selection.getRouletteWheel(args.selectparams)
+
 		newpop = []
-		for _ in xrange(numcross):
-			if getWheel:
-				p1 = selectfunc(wheel, *selectparams)
-				p2 = selectfunc(wheel, *selectparams)
+		for _ in tqdm(range(args.numCrossOvers), desc='Making offspring for the next generation'):
+			if args.getWheel:
+				p1 = args.selectfunc(args.selectparams)
+				p2 = args.selectfunc(args.selectparams)
 			else:
-				p1, p2 = selectfunc(pop, *selectparams)
-			if rand() <= crossprob:
-				c1 = crossfunc(p1, p2, crossfuncs, crossparams)
-				c2 = crossfunc(p2, p1, crossfuncs, crossparams)
-				newpop.extend([c1,c2])
-		
-		for i,p in enumerate(newpop):
-			if rand() <= mutprob:
-				newpop[i] = mutfunc(p, *mutparams)
-				p = newpop[i]
-			SCORES[p] = scorefunc(p, *scoreparams)
-		
-		pop = sorted(pop+newpop, key=SCORES.__getitem__, reverse=True)[:len(pop)]
-		
+				p1, p2 = args.selectfunc(args.selectparams)
+			if rand() <= args.crossprob:
+				args.crossparams.p1 = p1
+				args.crossparams.p2 = p2
+				children = args.crossfunc(args.crossparams)
+				for i, child in enumerate(children):
+					if rand() <= args.mutprob:
+						args.mutparams.individual = child
+						child = args.mutfunc(args.mutparams)
+						args.scoreparams.individual = child
+					SCORES[child] = args.scorefunc(args.scoreparams)
+					newpop.append(child)
+
+		pop = heapq.nlargest(args.genparams.popSize, pop+newpop, key=SCORES.__getitem__)
 		fittest = max(pop, key=SCORES.__getitem__)
 		fittest = fittest, SCORES[fittest]
-		log.info("Generation %03d | highest fitness: %s | fittest indiv: %r" %(g, fittest[1], fittest[0].chromosomes[0]) )
 		
 		if fittest[1] > best[1]:
 			best = fittest
-			if visualize:
-				screen = vis.makeScreen(*makeScreenParams)
-				label = font.render("%d / %d" %(best[1], targetscore), *fontParams)
-				screen.blit(label, *labelParams)
-				pg.display.init()
-				vis.draw(fittest[0], screen, *drawParams)
 		
-			if best[1] >= targetscore:
-				if vis:
-					raw_input("Hit <ENTER> to kill visualization: ")
-					vis.killscreen()
-				
+			if best[1] >= args.targetscore:
 				return best[0], g
-		g += 1
-	if vis:
-		raw_input("Hit <ENTER> to kill visualization: ")
-		vis.killscreen()
-	
-	if testmode:
-		assert (g == maxGens) or best[1] >= targetscore
 
 	return best, g
 
-def runGA(kwargs, testmode=False):
-	"""
-		pre:
-			isinstance(kwargs, dict)
-			'maxGens' in kwargs
-			kwargs['maxGens'] > 0
-		
-		post[kwargs]:
-			__old__.kwargs == kwargs
-			__return__[0][1] >= kwargs['targetscore'] or __return__[1] == kwargs['maxGens']
-			isinstance(__return__[0][0], Individual)
-	"""
-	
-	# # # # # # PARAMETERS # # # # # #
-	
-	maxGens = kwargs['maxGens']
-	targetscore = kwargs['targetscore']
-	genfunc = kwargs['genfunc']
-	genparams = kwargs['genparams']
-
-	scorefunc = kwargs['scorefunc']
-	scoreparams = kwargs['scoreparams']
-
-	selectfunc = kwargs['selectfunc']
-	selectparams = kwargs['selectparams']
-	
-	numcross = kwargs['numcross']
-	crossfunc = kwargs['crossfunc']
-	crossfuncs = kwargs['crossfuncs']
-	crossprob = kwargs['crossprob']
-	crossparams = kwargs['crossparams']
-
-	mutfunc = kwargs['mutfunc']
-	mutprob = kwargs['mutprob']
-	mutparams = kwargs['mutparams']
-	
-	SCORES = kwargs['SCORES']
-	getWheel = kwargs['getWheel']
-
-	# # # # # # /PARAMETERS # # # # # #
-	
-	pop = genfunc(*genparams)
-	for p in pop:
-		if p not in SCORES:
-			SCORES[p] = scorefunc(p, *scoreparams)
-	
-	best = max(SCORES, key=SCORES.__getitem__)
-	best = best, SCORES[best]	# indiv, score
-	
-	g = 0
-	while g < maxGens:
-		if testmode:
-			assert g < maxGens
-			assert best[1] < targetscore
-
-		if getWheel:
-			wheel = selection.getRouletteWheel(pop, SCORES)
-		
-		newpop = []
-		for _ in xrange(numcross):
-			if getWheel:
-				p1 = selectfunc(wheel, *selectparams)
-				p2 = selectfunc(wheel, *selectparams)
-			else:
-				p1, p2 = selectfunc(pop, *selectparams)
-			if rand() <= crossprob:
-				p1, p2 = crossfunc(p1, p2, crossfuncs, crossparams)
-			newpop.extend([p1,p2])
-		
-		for i,p in enumerate(newpop):
-			if rand() <= mutprob:
-				newpop[i] = mutfunc(p, *mutparams)
-				p = newpop[i]
-			SCORES[p] = scorefunc(p, *scoreparams)
-		
-		pop = newpop
-		
-		fittest = max(pop, key=SCORES.__getitem__)
-		fittest = fittest, SCORES[fittest]
-		log.info("Generation %03d | highest fitness: %s | fittest indiv: %r" %(g, fittest[1], ''.join(fittest[0].chromosomes[0])) )
-		if fittest[1] > best[1]:
-			best = fittest
-			if best[1] >= targetscore:
-				return best, g
-		g += 1
-	
-	if testmode:
-		assert (g == maxGens) or best[1] >= targetscore
-		
-	return best[0], g
-
-def run(kwargs):
-	expected = "sanity testmode algorithm".split()
-	for expect in expected:
-		if expect not in kwargs:
-			raise TypeError("Expected argument '%s' not found" %expect)
-
-	arguments = kwargs.pop('sanity')
-	
-	if len(kwargs) < len(arguments):
-		raise TypeError("Missing Arguements: %s" %' '.join([a for a in arguments if a not in kwargs]))
-
-	testmode = kwargs['testmode']
-	if testmode:
-		import contract
-		from Genetic import mutation, crossover, fitness, individual, population
-		from Genetic.individual import Individual #@UnusedImport 
-		contract.checkmod(__name__)
-		for mod in [crossover, fitness, individual, mutation, population, selection, vis]:
-			contract.checkmod(mod)
-	
-	kwargs.pop('algorithm')(kwargs)
 
 if __name__ == "__main__":
-	print 'starting'
-	from Genetic import settings
-#	kwargs = settings.getTSPSettings()
-#	answer = run(kwargs)
+	print('starting')
+	import settings
 
-	settings = settings.getOneMaxSettings()
-	answer = run(settings)
+	args = settings.getOneMaxSettings()
+	pystitia.setTestMode(args.__testmode__)
+	answer = args.func(args.args)
 
-	print 'done'
+	print('done')

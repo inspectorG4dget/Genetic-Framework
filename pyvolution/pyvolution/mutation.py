@@ -15,82 +15,92 @@ Copyright 2012 Ashwin Panchapakesan
 '''
 
 from random import randint, choice as choose, sample, shuffle
-from Genetic.individual import Individual
+from individual import Individual
+from pystitia import contracts
 
-def mutateSingleAllele(p, chrom, chars):
+
+@contracts(
+	preconditions=(
+		lambda args: isinstance(args.individual, Individual),
+		lambda args: isinstance(args.chrom, int),
+		lambda args: (0 <= args.chrom <= len(args.individual.chromosomes)-1) ^ (len(args.individual.chromosomes)*-1 <= args.chrom <= -1),
+	),
+	postconditions=(
+		lambda args: __old__.args.individual == args.individual,
+		lambda args: __old__.args.chrom == args.chrom,
+		lambda args: __return__ is not args.individual,
+		lambda args: __return__ != args.individual,
+		lambda: __return__.chromosomes != __old__.args.individual.chromosomes,
+		lambda args: all(e in args.chars for e in __return__.chromosomes[args.chrom]),
+		lambda args: all(__old__.args.individual.chromosomes[i]==__return__.chromosomes[i] for i in range(len(args.individual.chromosomes)) if i!=args.chrom)
+	)
+)
+def mutateSingleAllele(args): #p, chrom, chars):
 	""" get the `chrom`th chromosome of the Individual p.
 		Replace a random gene in this chromosome with a different allele from chars 
 		Precondition: p[chrom] should be castable into a list
 		Return a new individual. Do not destroy the input
-		
-		pre:
-			isinstance(p, Individual)
-			isinstance(chrom, int)
-			forall(p.chromosomes[chrom], lambda e: e in chars)
-			(0 <= chrom <= len(p.chromosomes)-1) ^ (len(p.chromosomes)*-1 <= chrom <= -1)
-			
-		post[p, chrom]:
-			__old__.p == p
-			__old__.chrom == chrom
-			__return__ is not p
-			__return__ != p
-			__return__.chromosomes != __old__.p.chromosomes
-			forall(__return__.chromosomes[chrom], lambda e: e in chars)
-			forall([i for i in range(len(p.chromosomes)) if i!=chrom], lambda c: __old__.p.chromosomes[i]==__return__.chromosomes[i])
-		
 	"""
 	
-	chromosome = p[chrom][:]
+	chromosome = args.individual[args.chrom][:]
 	gene = randint(0, len(chromosome)-1)
-	allele = choose([i for i in chars if i!= chromosome[gene]])
-	chromosome = chromosome[:gene] + [allele] + chromosome[gene+1:]
+	allele = choose([i for i in args.chars if i!= chromosome[gene]])
+	chromosome[gene] = allele
 	
-	answer = Individual(p.chromosomes[:])
-	answer[chrom] = chromosome
+	answer = Individual(args.individual.chromosomes[:])
+	answer[args.chrom] = chromosome
 	return answer
 
-def swapmut(p, chrom):
+
+@contracts(
+	preconditions=(
+		lambda args: isinstance(args.p, Individual),
+		lambda args: isinstance(args.chrom, int),
+		lambda args: (0 <= args.chrom <= len(args.p.chromosomes)-1) ^ (len(args.p.chromosomes)*-1 <= args.chrom <= -1),
+	),
+	postconditions=(
+		lambda args: __old__.args.p == args.p,
+		lambda args: __old__.args.chrom == args.chrom,
+		lambda: isinstance(__return__, Individual),
+		lambda args: all(e in __return__.chromosomes[args.chrom] for e in args.p.chromosomes[args.chrom]),
+		lambda args: all(e in args.p.chromosomes[args.chrom] for e in __return__.chromosomes[args.chrom]),
+		lambda args: sum(i!=j for i,j in zip(__return__[args.chrom], args.p[args.chrom])) == 2,
+	)
+)
+def swapmut(args): #p, chrom):
 	""" Pick any two random cities and swap their positions in the tour 
-		
-		pre:
-			isinstance(p, Individual)
-			isinstance(chrom, int)
-			(0 <= chrom <= len(p.chromosomes)-1) ^ (len(p.chromosomes)*-1 <= chrom <= -1)
-		
 		post[p, chrom]:
-			__old__.p == p
-			__old__.chrom == chrom
-			isinstance(__return__, Individual)
-			forall(p.chromosomes[chrom], lambda e: e in __return__.chromosomes[chrom])
-			forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])
-			sum(i!=j for i,j in zip(__return__[chrom], p[chrom])) == 2
-		"""
-	answer = Individual(p.chromosomes[:])
-	p = answer[chrom][:]
+	"""
+
+	answer = Individual(args.p.chromosomes[:])
+	p = answer[args.chrom][:]
 	i,j = sample(range(len(p)), 2)
 	p[i], p[j] = p[j], p[i]
-	answer[chrom] = p
+	answer[args.chrom] = p
 	return answer
 
-def revmut(p, chrom):
+
+@contracts(
+	preconditions=(
+		lambda args: isinstance(args.p, Individual),
+		lambda args: isinstance(args.chrom, int),
+		lambda args: (0 <= args.chrom <= len(args.p.chromosomes)-1) ^ (len(args.p.chromosomes)*-1 <= args.chrom <= -1),
+	),
+	postconditions=(
+		lambda args:__old__.args.p == args.p,
+		lambda args: __old__.args.chrom == args.chrom,
+		lambda: isinstance(__return__, Individual),
+		lambda args: all(e in __return__.chromosomes[args.chrom] for e in args.p.chromosomes[args.chrom]),
+		lambda args: all(e in args.p.chromosomes[args.chrom] for e in __return__.chromosomes[args.chrom]),
+	)
+)
+def revmut(args): #p, chrom):
 	""" Choose a random pair of points on the chromosome.
 		Reverse the order of the genes between those two points on the chromosome 
-		
-		pre:
-			isinstance(p, Individual)
-			isinstance(chrom, int)
-			(0 <= chrom <= len(p.chromosomes)-1) ^ (len(p.chromosomes)*-1 <= chrom <= -1)
-		
-		post[p, chrom]:
-			__old__.p == p
-			__old__.chrom == chrom
-			isinstance(__return__, Individual)
-			forall(p.chromosomes[chrom], lambda e: e in __return__.chromosomes[chrom])
-			forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])
 	"""
 	
-	pp=p
-	p = p[chrom]
+	pp = args.p
+	p = args.p[args.chrom]
 	answer = []
 	a,b = sample(range(len(p)), 2)
 	if a>b: a,b = b,a
@@ -98,29 +108,31 @@ def revmut(p, chrom):
 	answer.extend(p[a:b+1][::-1])
 	answer.extend(p[b+1:])
 	indiv = Individual(pp.chromosomes[:])
-	indiv[chrom] = answer
+	indiv[args.chrom] = answer
 	return indiv
 
-def shufflemut(p, chrom):
-	"""
-		pre:
-			isinstance(p, Individual)
-			isinstance(chrom, int)
-			(0 <= chrom <= len(p.chromosomes)-1) ^ (len(p.chromosomes)*-1 <= chrom <= -1)
-		
-		post[p, chrom]:
-			__old__.p == p
-			__old__.chrom == chrom
-			isinstance(__return__, Individual)
-			__return__.chromosomes[chrom] != p.chromosomes[chrom]
-			forall(p.chromosomes[chrom], lambda e: e in __return__.chromosomes[chrom])
-			forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])
-			len(__return__.chromsomes[chrom]) == len(p.chromosomes[chrom])
-	"""
-	
-	pp = p
-	p = p[chrom][:]
+
+@contracts(
+	preconditions=(
+		lambda args: isinstance(args.p, Individual),
+		lambda args: isinstance(args.chrom, int),
+		lambda args: (0 <= args.chrom <= len(args.p.chromosomes) - 1) ^ (len(args.p.chromosomes) * -1 <= args.chrom <= -1),
+	),
+	postconditions=(
+		lambda args: __old__.args.p == args.p,
+		lambda args: __old__.args.chrom == args.chrom,
+		lambda: isinstance(__return__, Individual),
+		lambda args: __return__.chromosomes[args.chrom] != args.p.chromosomes[args.chrom],
+		lambda args: all(e in __return__.chromosomes[args.chrom] for e in args.p.chromosomes[args.chrom]),
+		lambda args: all(e in args.p.chromosomes[args.chrom] for e in __return__.chromosomes[args.chrom]),
+		lambda args: len(__return__.chromsomes[args.chrom]) == len(args.p.chromosomes[args.chrom]),
+	)
+)
+def shufflemut(args): #p, chrom):
+
+	pp = args.p
+	p = args.p[args.chrom][:]
 	shuffle(p)
 	answer = Individual(pp.chromosomes[:])
-	answer[chrom] = p
+	answer[args.chrom] = p
 	return answer
