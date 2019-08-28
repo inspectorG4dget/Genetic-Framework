@@ -9,17 +9,17 @@ try:
 except ImportError:
 	from distutils.core import setup
 
-requires = []
+requires = ['tqdm', 'colorama', 'pystitia']
 
 setup(
 	name = 'Pyvolution',
-	version = "1.0.1",
+	version = "2.0",
 	description = "Evolutionary Algorithms Framework",
 	long_description="Evolutionary Algorithms Framework",
 	author = 'Ashwin Panchapakesan',
 	author_email = 'ashwin.panchapakesan@gmail.com',
 	url = 'https://github.com/inspectorG4dget/Genetic-Framework',
-	packages = ["Genetic"],
+	packages = ["pyvolution"],
 	include_package_data = True,
 	install_requires = requires,
 	license = "Apache License, Version 2.0",
@@ -29,6 +29,6 @@ setup(
 		'Intended Audience :: Developers',
 		'Natural Language :: English',
 		'Programming Language :: Python',
-		'Programming Language :: Python :: 2.7',
+		'Programming Language :: Python :: 3.7',
 	),
 )
