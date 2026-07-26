@@ -1,180 +1,109 @@
 settings.py
 ***********
 
-Since the evolutionary framework requires several settings for each of the modules being used, a separate file is used to specify the correct settings for a run of an evolution.
+Since a run of evolution needs many coordinated settings, this file is where those
+settings are assembled, one function per problem, into the single
+``argparse.Namespace`` that :func:`GA.runGA` expects.
 
-This file contains functions, each of which generates a specific set of settings to run evolution on a specific problem
+getOneMaxSettings()
+=====================
 
-Fields
-=======
+.. function:: getOneMaxSettings()
 
-All fields have to be set with some value or other. There are no default values in this framework, by design
+   :rtype: argparse.Namespace with ``.func`` and ``.args`` attributes
 
-algorithm
-----------
-The evolutionary algorithm to be run (defined in GA.py)
+The only complete, working settings function in this file. Builds the settings for
+solving the One-Max problem (maximize the number of ``'1'`` genes in a 30-gene binary
+chromosome, population of 1000, over up to 100 generations or until a score of 30 is
+reached) and returns them wrapped for :func:`GA.py`'s ``__main__`` block:
+the returned ``argparse.Namespace`` has ``.func`` set to :func:`GA.runGA` and ``.args``
+set to the actual settings namespace described below, so that it's called as
+``result.func(result.args)``.
 
-testmode
----------
-Set this to true to run in-function assert statements that check contracts. False otherwise
+Fields of the settings namespace (``result.args``)
+=====================================================
 
-maxGens
--------
-The maximum number of generations for which evolution shall be run after which it will be stopped even if an optimal solution has not yet been discovered
+There are no default values in this framework, by design -- every field below must be
+set explicitly.
 
-targetscore
+``genfunc`` / ``genparams``
+-----------------------------
+``genfunc`` generates the initial population, called as ``genfunc(genparams)``. In
+``getOneMaxSettings``, this is :func:`population.genPop`, and ``genparams`` is itself a
+namespace with:
+
+- ``genparams.popSize`` -- the number of individuals in the population
+- ``genparams.chromGens`` -- a list of ``(function, params)`` tuples, one per
+  chromosome (see :doc:`population.py`)
+
+``maxGens``
 ------------
-The known optimal fitness score of the problem. Setting this to ``None`` or ``''`` will simulate negative and positive infinity, respectively
+The maximum number of generations for which evolution shall run, after which it stops even if no individual has reached ``targetscore``.
 
-popsize
---------
-The number of individuals in the population during evolution
+``targetscore``
+-----------------
+The fitness score at which evolution stops early, once reached.
 
-numCrossovers
--------------
-The number of crossover operations per generation
+``SCORES``
+-----------
+A dictionary that memoizes the fitness values of individuals already scored. Usually starts as an empty dict, and is shared by reference into ``scoreparams``/``selectparams`` below.
 
-SCORES
-------
-A dictionary that remembers the fitness values of all individuals. This is used as an optimization. Usually, this is an empty dictionary
-This can be deactivated by changing ``Individual.__hash__`` to something that will be unique to each individual, regardless of genetic makeup
+``scorefunc`` / ``scoreparams``
+----------------------------------
+``scorefunc`` evaluates an individual's fitness, called as ``scorefunc(scoreparams)``.
+In ``getOneMaxSettings``, this is :func:`fitness.score`, and ``scoreparams`` is a
+namespace with:
 
-genfunc
---------
-The function that generates the initial population
+- ``scoreparams.scorefuncs`` -- a list of ``(function, params)`` tuples, one per
+  chromosome (see :doc:`fitness.py`)
+- ``scoreparams.SCORES`` -- the same dict as the top-level ``SCORES``
 
-genparams
-----------
-A tuple containing the parameters to send to ``genfunc`` in the correct order
-
-scorefunc
-----------
-The function that returns the fitness evaluation of an individual. By default this is set to ``fitness.score``. 
 .. note::
 
-    It is advisable to leave this as ``fitness.score``, especially for multi-chromosome individuals.
+    The individual being scored is not part of ``scoreparams`` at settings-construction
+    time -- :func:`fitness.score` sets ``scoreparams.individual``/``.chrom`` itself for
+    each call, since which individual is being scored can only be known once evolution
+    is running.
 
-scoreparams
-------------
-This is a 3-tuple
+``selectfunc`` / ``selectparams``
+------------------------------------
+``selectfunc`` chooses individuals for reproduction, called as
+``selectfunc(selectparams)``. In ``getOneMaxSettings``, this is
+:func:`selection.rouletteWheelSelect`, and ``selectparams`` carries ``.SCORES``,
+``.scorefunc``, and ``.scoreparams`` through to it. As with scoring, the population to
+select from is supplied by :func:`GA.runGA` itself at call time, not baked into these
+settings.
 
-======	===================	========================================================================================================================
-Index	Type			Description
-======	===================	========================================================================================================================
-0	list of functions	the `i` th function listed here will be used to compute the fitness of the `i` th chromosome of the individuals
-1	list of tuples		the `i` th tuple listed here contains the parameters (in the correct order) for the `i` th function in the list in index 0
-2	dictionary		``SCORES``
-======	===================	========================================================================================================================
-
-.. warning::
-
-    The parameters listed do NOT include any reference to the individual whose fitness will be computed. The individual will be supplied by the main evolution function itself. This is because the individual is chosen by the selection function and therefore cannot be known at the time of making these settings
-
-selectfunc
------------
-The selection function by which individuals will be selected for crossover
-
-selectparams
+``getWheel``
 -------------
-A tuple of parameters (in the correct order) for the selection function
+A ``bool``, computed automatically as ``selectfunc in {selection.rouletteWheelSelect}``, indicating whether :func:`GA.runGA` must (re)compute a roulette wheel each generation before calling ``selectfunc``.
 
-.. warning::
+``crossfunc`` / ``crossparams`` / ``crossprob``
+--------------------------------------------------
+``crossfunc`` combines two parents into children, called as ``crossfunc(crossparams)``.
+In ``getOneMaxSettings``, this is :func:`crossover.twoChildCrossover`, and
+``crossparams`` is a namespace whose own ``.crossparams`` attribute is a list of
+``(function, params)`` tuples, one per chromosome (see :doc:`crossover.py`).
+``crossprob`` is the probability, in ``[0, 1]``, that a given pair of selected parents
+is actually crossed over.
 
-    The parameters listed do NOT include any reference to the population from which individuals will be selected. The population will be supplied by the main evolution function itself. This is because the population keeps changing over time and therefore cannot be known at the time of making these settings
+``mutfunc`` / ``mutparams`` / ``mutprob``
+--------------------------------------------
+``mutfunc`` mutates a single child, called as ``mutfunc(mutparams)``. In
+``getOneMaxSettings``, this is :func:`mutation.mutateSingleAllele`, and ``mutparams``
+carries ``.chrom`` (which chromosome to mutate) and ``.chars`` (the allowed alphabet,
+reused from the chromosome-generation params). ``mutprob`` is the probability, in
+``[0, 1]``, that a given child is mutated.
 
-crossfunc
-----------
-The function that performs crossover between two individuals. This is usually either ``oneChildCrossover`` or ``twoChildCrossover``. These crossover functions return 1 or 2 children as the result of crossover, respectively.
+``numCrossOvers``
+-------------------
+How many crossover operations :func:`GA.runGA` attempts per generation.
 
-crossfuncs
------------
-A list of crossover functions. The ``i``th function in this list will be used (along with the ``i``th tuple of parameters from ``crossparams``) to crossover the ``i``th pair of corresponding chromosomes of two individuals.
+.. note::
 
-crossparams
-------------
-A tuple of parameters (in the correct order) for the crossover function
-
-.. warning::
-
-    The parameters listed do NOT include any reference to the individuals to be crossed over. These individuals will be supplied by the main evolution function itself. This is because the individuals are chosen by the selection function and therefore cannot be known at the time of making these settings
-
-mutfunc
---------
-The function that will mutate a given individual
-
-mutparams
-----------
-A tuple of parameters (in the correct order) for the crossover function
-
-.. warning::
-
-    The parameters listed do NOT include any reference to the individual to be mutated. This individual will be supplied by the main evolution function itself. This is because the individual is chosen at random (with probability) and therefore cannot be known at the time of making these settings
-
-crossprob
-----------
-The probability of crossover occurring. Represented as a float in [0, 1]
-
-mutprob
---------
-The probability of mutation occurring. Represented as a float in [0, 1]
-
-rouletteWheelRequireres
-------------------------
-A set of functions that require a roulette wheel. This is used later in the automated computation some settings
-
-getWheel
---------
-A ``bool`` that determines whether the evolutionary algorithm must compute a roulette wheel for selection
-
-.. warning::
-
-    This is an automatically set parameter. Do not alter it.
-
-visualize
-----------
-A boolean flag that determines if visualization is enabled
-
-screenWidth
-------------
-The width of the screen created for visualization
-
-screenHeight
--------------
-The height of the screen created for visualization
-
-makeScreenParams
------------------
-A tuple of parameters (in the correct order) required to make the screen on which the visualization will be drawn
-
-drawParams
------------
-A tuple of parameters (in the correct order) required to draw the visualization on the screen
-
-fon
-----
-The font with which any text should be written on screen during visualization
-
-fontParams
------------
-The parameters for rendering font as a tuple 9in the correct order)
-
-labelParams
------------
-A tuple of parameters (in the correct order) required to place any text in the correct place on screen during visualization
-
-sanity
--------
-A list of parameter names that should be present in the settings.
-The settings are checked for the entries in ``sanity`` before any evolution is run, to ensure that all parameters are provided
-
-answer
--------
-A dictionary of the settings to run evolution
-
-.. warning::
-
-    It is generally a bad idea to alter statements that are not assignment statements. This is because they are automations that generate some settings, thus taking the responsibility of generating those settings away from the programmer. Altering them may have unintended side-effects
-
-.. warning::
-
-    It is generally a bad idea to alter statements that are inside the ``if visualize`` block. This is a block that automates the inclusion of settings (both into the returned settings and the sanity) for visualization if it is enabled
+    Traveling Salesman Problem (TSP) support is currently partial/removed. This file
+    used to contain a second settings function for TSP (wiring together
+    :func:`population.genTour`, :func:`fitness.scoreTSP`, :func:`crossover.injectionco`,
+    and PyGame-based visualization); that function's entire body is now commented out,
+    and the ``visualization.py`` module it depended on no longer exists in this
+    repository. See the top-level README's Known Issues.

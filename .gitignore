@@ -9,4 +9,4 @@ setup.py
 setup.cfg
 *.swp
 *.buildinfo
-Genetic-Framework/Documentation/_build/latex/*
+pyvolution/Documentation/_build/
