@@ -1,462 +1,358 @@
 Contracts
 **********
 
-Contracts are used to check the pre and post conditions of functions to make sure that the evolutionary algorithm remains constrained within the solution space.
+This framework uses `pystitia <https://github.com/inspectorG4dget/pystitia>`_ for
+Design by Contract: functions are wrapped in ``@contracts(preconditions=(...),
+postconditions=(...))``, where each condition is a lambda that pystitia calls with
+whichever of the function's ``args`` attributes (or, for postconditions,
+``__return__``/``__old__``) it asks for by name. These checks only run when the
+module-level ``__testmode__`` flag is ``True`` (via ``pystitia.setTestMode``); this
+page summarizes, in plain language, the contracts declared in the source today.
 
-All contracts used by all functions are listed here. It is highly recommended that similar functions that are implemented in the future implement similar contracts. This will be explained further as each contract is explaioned.
+.. note::
 
-GA.py
-=====
+    The contracts themselves live in the source as the single source of truth (next to
+    the function they describe). This page is a curated summary for readability, kept
+    in sync with the source -- if the two disagree, trust the source.
 
-The main GA driver has the following contracts. It is highly recommended that any GA implemented to maximize the fitness score should implement these contracts.
-
-The main GA runner
-------------------
-
-Preconditions
-++++++++++++++
-1. ``kwargs`` should be supplied
-2. ``kwargs`` is a dict mapping argument names (strings) to argument values
-3. The maximum number of generations allowed is greater than 0
-
-Postconditions
-++++++++++++++
-1. ``kwargs`` should not be changed
-2. At least one of the following two conditions must hold
-	a. the fitness of the fittest individual (being returned) is at least ``targetscore``
-	b. the current generation count is equal to the maximum number of generations allowed
-3. the maximum number of generations allowed is greater than 0
-
-Individual.py
+individual.py
 =============
 
-The following contracts must be followed for any implementation of the ``Individual`` class
+``Individual.__init__(self, chromosomes)``
+--------------------------------------------
 
+Preconditions
++++++++++++++
+1. ``chromosomes`` is a ``list``
 
-``Individual.__hash__(self, other)``
+Postconditions
++++++++++++++++
+1. ``self.chromosomes`` exists
+
+``Individual.__eq__(self, other)``
 ------------------------------------
 
 Preconditions
-++++++++++++++
-None
++++++++++++++
+1. ``other`` is an instance of :class:`Individual`
 
 Postconditions
-++++++++++++++
-1. an ``int`` should be returned
-2. ``self`` should not be changed
++++++++++++++++
+1. Neither ``self`` nor ``other`` is changed
 
-In addition to these, the current implementation has the following methods implemented:
-
-``Individual.__eq__(self, other)``
-----------------------------------
-
-Preconditions
-++++++++++++++
-1. ``other`` should be an instance of :class:`Individual`
-
-Postconditions
-++++++++++++++
-1. ``other`` should not be changed
-2. ``self`` should not be changed
-
-``Individual.__len__(self)``
+``Individual.__hash__(self)``
 --------------------------------
 
+Postconditions
++++++++++++++++
+1. ``self`` is not changed
+
+``Individual.__len__(self, chrom=None)``
+-------------------------------------------
+
 Preconditions
-++++++++++++++
-None
++++++++++++++
+1. If ``chrom`` is given, it is a valid index (positive, in range, or the equivalent negative index)
 
 Postconditions
-++++++++++++++
-1. ``self`` should not be changed
++++++++++++++++
+1. ``self`` is not changed
+
+``Individual.__getitem__(self, i)``
+--------------------------------------
+
+Preconditions
++++++++++++++
+1. ``i`` is a valid index (positive, in range, or the equivalent negative index)
+
+Postconditions
++++++++++++++++
+1. ``self`` is not changed
 
 ``Individual.__setitem__(self, index, obj)``
----------------------------------------------
+-----------------------------------------------
 
 Preconditions
-++++++++++++++
-1. Exactly one of the following two conditions must be satisfied:
-	a. 0 <= ``index`` <= len(self.chromosomes)
-	b. len(self.chromosomes)*-1 >= index >= -1
++++++++++++++
+1. ``index`` is a valid index (positive, in range, or the equivalent negative index)
 
 Postconditions
-++++++++++++++
-1. The object at ``self.chromosomes[index]`` should be ``obj``
++++++++++++++++
+1. ``self.chromosomes[index]`` is ``obj``
 
 ``Individual.__contains__(self, chromosome)``
-----------------------------------------------
-
-Preconditions
-++++++++++++++
-None
+------------------------------------------------
 
 Postconditions
-++++++++++++++
-1. ``self`` should not be changed
-2. ``chromosome`` should not be changed
++++++++++++++++
+1. Neither ``self`` nor ``chromosome`` is changed
 
-``Individual.__repr__(self)``
+``Individual.__repr__(self)`` / ``Individual.__str__(self)``
+----------------------------------------------------------------
+
+Postconditions
++++++++++++++++
+1. ``self`` is not changed
+
+``Individual.append(self, chrom)``
+--------------------------------------
+
+Postconditions
++++++++++++++++
+1. ``len(self.chromosomes)`` increases by exactly 1
+2. The last chromosome in ``self.chromosomes`` is ``chrom``
+
+``Individual.count(self, sub, chrom)``
+------------------------------------------
+
+Postconditions
++++++++++++++++
+1. ``self.chromosomes`` is not changed
+
+population.py
+==============
+
+``genPop(args)``
+-------------------
+
+Preconditions
++++++++++++++
+1. ``args.popSize > 0``
+2. ``args.chromGens`` is a list of ``(callable, argparse.Namespace)`` tuples
+
+Postconditions
++++++++++++++++
+1. ``args.chromGens`` is not changed
+2. Returns a list of length ``args.popSize``
+3. Every individual in the returned list is unique
+
+``genCharsChrom(args)``
+--------------------------
+
+Preconditions
++++++++++++++
+1. ``args.numGenes`` is an ``int``
+2. ``args.bases`` supports ``__getitem__``/``__len__`` and is non-empty
+
+Postconditions
++++++++++++++++
+1. ``args.numGenes``/``args.bases`` are not changed
+2. Returns a list of length ``args.numGenes``
+3. Every element of the returned list is drawn from ``args.bases``
+
+``genTour(args)``
+--------------------
+
+Preconditions
++++++++++++++
+1. ``args.numCities`` is an ``int``
+
+Postconditions
++++++++++++++++
+1. ``args.numCities`` is not changed
+2. Returns a list of length ``args.numCities``
+3. The returned list is a permutation of ``range(args.numCities)``
+
+fitness.py
+===========
+
+``score(args)``
+------------------
+
+Preconditions
++++++++++++++
+1. ``args.individual`` is an :class:`individual.Individual`
+2. ``args.scorefuncs`` is a list of ``(callable, tuple)`` pairs
+3. ``args.SCORES`` is a ``dict``
+
+Postconditions
++++++++++++++++
+1. ``args.individual`` is not changed
+2. ``args.individual`` is a key in ``args.SCORES`` afterwards
+3. If ``args.individual`` was already in ``args.SCORES``, its size is unchanged; otherwise it grows by exactly 1
+
+``scoreOnes(args)``
+----------------------
+
+Preconditions
++++++++++++++
+1. ``args.individual`` is an :class:`individual.Individual`
+2. Every chromosome of ``args.individual`` is a list
+3. Every gene in chromosome 0 is ``'0'`` or ``'1'``
+
+Postconditions
++++++++++++++++
+1. ``args.individual`` is not changed
+2. Returns an ``int >= 0``
+
+``scoreTSP(args)``
+---------------------
+
+Preconditions
++++++++++++++
+1. ``args.tour`` is a list of ``int``
+2. ``args.DIST`` is a ``dict`` of ``{int: {int: float}}``
+
+Postconditions
++++++++++++++++
+1. Returns a ``float``
+2. ``args.tour``/``args.DIST`` are not changed
+
+selection.py
+=============
+
+``getRouletteWheel(args)``
+-----------------------------
+
+Preconditions
++++++++++++++
+1. ``args.pop`` is a list of :class:`individual.Individual`
+2. ``args.SCORES`` is a dict keyed by every individual in ``args.pop``
+
+Postconditions
++++++++++++++++
+1. ``args.pop`` is not changed
+2. Returns a list of 3-tuples ``(individual, low, high)``, one per individual in ``args.pop``, with ``low <= high``
+
+``rouletteWheelSelect(args)``
 --------------------------------
 
 Preconditions
-++++++++++++++
-None
-
-Postconditions
-++++++++++++++
-1. ``self`` should not be changed
-
-``Individual.append(self, chrom)``
------------------------------------
-
-Preconditions
-++++++++++++++
-None
-
-Postconditions
-++++++++++++++
-1. The length of ``self.chromosomes`` should be increased by exactly 1
-2. The last chromosome in ``self.chromosomes`` should be ``chrom``
-
-``Individual.count(self, sub, chrom)``
----------------------------------------
-
-Preconditions
-++++++++++++++
-None
-
-Postconditions
-++++++++++++++
-1. ``self`` should not be changed
-
-
-population.py
-=============
-
-The following contracts are applied to the functions in population.py
-
-``genPop(N, chromGenfuncs, chromGenParams)``
----------------------------------------------
-
-Preconditions
-++++++++++++++
-1. N >= 0
-2. ``chromGenfuncs`` is a list
-3. Every entry in ``chromGenfuncs`` is a function
-4. ``chromGenParamss`` is a list
-5. The lengths of ``chromGenfuncs`` and ``chromGenParams`` are equal
-
-Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. Function returns a list
-3. The length of the returned list is ``N``
-4. The returned list contains exactly 1 of each item i.e. no two items in the returned list are equal
-
-
-``genCharsChrom(l, chars)``
-----------------------------
-
-Preconditions
-++++++++++++++
-1. ``l`` is an integer
-2. ``chars`` is an instance of some class that implements ``__getitem__``
-3. ``chars`` is an instance of some class that implements ``__len__``
-4. ``len(chars)`` is greater than 0
-
-Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. Function returns a list
-3. The length of the returned list is ``l``
-4. Every element in the returned list exists in ``chars``
-
-``genTour(numCities)``
-----------------------------
-
-Preconditions
-++++++++++++++
-1. ``numCities`` is an integer
-
-Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. Function returns a list
-3. The length of the returned list is ``numCities``
-4. Every element in the returned list exists exactly once in the returned list.
-
-score.py
-========
-
-``score(p, scorefuncs, scorefuncparams, SCORES)``
--------------------------------------------------
-
-Preconditions
-++++++++++++++
-1. ``p`` is an instance of :class:`Individual`
-2. ``scorefuncs`` is a list of functions
-3. ``scorefuncparams`` is a list of tuples
-4. The lengths of ``scorefuncs`` and ``scorefuncparams`` are equal
-5. ``SCORES`` is a dictionary
-
-Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. ``p`` is in ``SCORES``
-3. Exactly one of the following two conditions are met:
-	a. ``p`` was in ``SCORES`` before this function was called and the number of entries in ``SCORES`` has not changed
-	b. ``p`` was not in ``SCORES`` before this function was called and the number of entries in ``SCORES`` has increased by exactly 1
-
-``scoreOnes(p)``
-----------------
-
-Preconditions
-++++++++++++++
-1. ``p`` is list
-2. All elements in ``p`` are strings of length exactly 1
-3. All elements in ``p`` are either '0' or '1'
-
-Postconditions
-++++++++++++++
-1. ``p`` is unchaged
-2. An integer is returned
-3. The value returned is at least 0
-
-scoreTSP(tour, DIST)
---------------------
-		post:
-			isinstance(__return__, float)
-		post[tour, DIST]:
-			__old__.tour == tour
-			__old__.DIST == DIST
-
-Preconditions
 +++++++++++++
-1. ``tour`` is a list
-2. ``DIST`` is a dictionary
-3. All elements in ``tour`` are integers
-4. All keys in ``DIST`` are integers
-5. All values in ``DIST`` are dictionaries
-6. Every key in every value of ``DIST`` is an integer
-7. Every value in every value of ``DIST`` is a float
-
-Loop Invariant
-+++++++++++++++
-1. ``answer`` (the value to be returned is at most 0 and monotonously decreases
+1. ``args.wheel`` is a list of valid 3-tuples, as returned by ``getRouletteWheel``
+2. ``args.s`` (if present) is a ``float`` or ``None``
 
 Postconditions
 +++++++++++++++
-1. The inputs are unchanged
-2. The function returns a float
+1. ``args.wheel`` is not changed
+2. Returns an :class:`individual.Individual`
 
-getRouletteWheel(pop, SCORES)
-------------------------------
+``tournamentSelect(args)``
+-----------------------------
 
 Preconditions
 +++++++++++++
-1. ``pop`` is a list of instances of :class:`Individual`
-2. ``SCORES`` is a dictionary
-3. Every element in ``pop`` is a key in ``SCORES``
+1. ``args.population`` is a list of :class:`individual.Individual`
+2. ``args.T``, ``args.w``, ``args.n`` are ``int``, with ``w <= n``, ``n % w == 0``, ``w <= T``, ``len(pop) >= T``, ``T >= n``
+3. ``args.scoreparams`` is a ``tuple``
 
 Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. A list of 3-tuples of type (Individual, float, float) is returned
-3. The length of the returned list is equal to the length of ``pop``
-4. The first element of every tuple in the returned list exists in ``pop``
-5. The second float is smaller than the third float in every tuple in the returned list
-
-rouletteWheelSelect(wheel, s=None)
------------------------------------
-
-Preconditions
-+++++++++++++
-1. ``wheel`` is a list of 3-tuples which satisfy all the following conditions
-	a. The first element is an instance of :class:`Individual`
-	b. The last two elements are floats
-	c. The first float is smaller than the second
-2. Exactly one of the following two conditions are met:
-	a. ``s`` is a float
-	b. ``s`` is None
-
-Postconditions:
 +++++++++++++++
-1. The inputs are unchanged
-2. An instance of :class:`Individual` is returned
+1. ``args.population``/``args.T``/``args.w``/``args.n``/``args.scorefunc``/``args.scoreparams`` are not changed
+2. Returns a list of ``args.n`` individuals
 
-tournamentSelect(pop, T, w, n, scorefunc, scoreparams)
-------------------------------------------------------
+.. note::
 
-Preconditions
-++++++++++++++
-1. ``pop`` is a list of instances of :class:`Individual`
-2. ``T`` is an integer
-3. ``w`` is an integer
-4. ``n`` is an integer
-5. ``w`` is at most ``n``
-6. ``n%w`` is exactly 0
-7. ``n`` is at most ``T``
-8. ``scoreparams`` is a tuple
-
-Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. A list of ``n`` instances of :class:`Individual` is returned
+    The preconditions for ``tournamentSelect`` check ``args.population`` in one clause
+    and ``args.pop`` in another -- these are two different attribute names on the same
+    ``args`` object. This is an inconsistency in the current source (see the module
+    itself), not a documentation choice; both attributes must be supplied for the
+    contract checks to pass in test mode.
 
 crossover.py
 =============
 
-The following contracts are implemented for the crossover functions.
+``crossOnes(args)``
+----------------------
 
-crossOnes(p1, p2, chrom)
+Preconditions
++++++++++++++
+1. ``args.p1`` and ``args.p2`` are ``list``
+
+Postconditions
++++++++++++++++
+1. ``args.p1``/``args.p2`` are not changed
+2. Returns a 2-tuple of new lists (not the same objects as the inputs)
+
+``injectionco(args)``
 ------------------------
 
 Preconditions
 +++++++++++++
-1. ``p1`` and ``p2`` are instances of :class:`list`
+1. ``args.p1`` and ``args.p2`` are equal-length lists, each a permutation of ``range(len(args.p1))``
 
 Postconditions
 +++++++++++++++
-1. The inputs are unchaged
-2. A tuple of two instances of :class:`list` is returned
-3. Each list in the return tuple satisfies the following conditions:
-	a. each element in the list exists in either ``p1`` or ``p2`` or both.
+1. ``args.p1``/``args.p2`` are not changed
+2. Returns a new list of the same length, containing exactly the same elements as ``args.p1`` (and ``args.p2``), each exactly once
 
-injectionco(p1, p2, chrom)
----------------------------
+``twoChildCrossover(args)``
+------------------------------
 
 Preconditions
-++++++++++++++
-1. ``p1`` and ``p2`` are instances of :class:`list`
-2. The length of `p1` is exactly equal to the length of ``p2``
-3. ``p1`` is a permutation of [0… ``len(p1)-1``]
-4. ``p2`` is a permutation of [0… ``len(p2)-1``]
++++++++++++++
+1. Every entry in ``args.crossparams`` is a ``tuple``
 
 Postconditions
-++++++++++++++
-1. The inputs are unchaged
-2. A new object is returned of type :class:`list`
-3. The length of the returned list is exactly equal to the length of ``p1`` (and therefore of ``p2`` as well)
-4. The function returns a permutation i.e. all elements in the returned list occur exactly once
++++++++++++++++
+1. Returns a 2-tuple of :class:`individual.Individual`
 
-twoChildCrossover(p1,p2, crossfuncs, crossparams)
---------------------------------------------------
+``oneChildCrossover(args)``
+------------------------------
 
 Preconditions
-++++++++++++++
-1. ``p1`` and ``p2`` are instances of :class:`Individual`
-2. ``p1`` and ``p2`` are of exactly equal length
-3. The number of elements in ``crossfuncs`` is exactly equal to the length of ``p1`` (and therefore of ``p2``)
-4. The number of elements in ``crossfuncs`` is exactly equal to the number of elements in ``crossparams``
-5. Every element in ``crossparams`` is a tuple
++++++++++++++
+1. ``args.p1``/``args.p2`` are :class:`individual.Individual` of equal length
+2. ``len(args.crossfuncs) == len(args.p1) == len(args.crossparams)``
 
 Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. A tuple of two elements of type :class:`Individual` is returned
-3. Each of the returned children has the same number of chromosomes as the parents
-4. Each chromosome in each of the children has the same length as the corresponding chromosome of both parents
++++++++++++++++
+1. ``args.p1``/``args.p2`` are not changed
+2. Returns a single :class:`individual.Individual` whose chromosome lengths match the parents'
 
-oneChildCrossover(p1,p2, crossfuncs, crossparams)
---------------------------------------------------
-
-Preconditions
-++++++++++++++
-1. ``p1`` and ``p2`` are instances of :class:`Individual`
-2. ``p1`` and ``p2`` are of exactly equal length
-3. The number of elements in ``crossfuncs`` is exactly equal to the length of ``p1`` (and therefore of ``p2``)
-4. The number of elements in ``crossfuncs`` is exactly equal to the number of elements in ``crossparams``
-5. Every element in ``crossparams`` is a tuple
-
-Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. A tuple of one element of type :class:`Individual` is returned
-3. The returned child has the same number of chromosomes as the parents
-4. Each chromosome in the child has the same length as the corresponding chromosome of both parents
-
-muatation.py
+mutation.py
 ============
 
-mutateSingleAllele(p, chrom, chars)
------------------------------------
+``mutateSingleAllele(args)``
+-------------------------------
 
 Preconditions
 +++++++++++++
-1. ``p`` is an instance of :class:`Individual`
-2. ``chrom`` is an integer
-3. The value of each gene in the ``chrom`` th chromosome of ``p`` exists in ``chars``
-4. Exactly one of the following two conditions must be satisfied:
-	a. 0 <= ``index`` <= len(self.chromosomes)
-	b. len(self.chromosomes)*-1 >= index >= -1
+1. ``args.individual`` is an :class:`individual.Individual`
+2. ``args.chrom`` is a valid chromosome index
 
 Postconditions
-++++++++++++++
-1. The inputs are unchanged
-2. A new instance of :class:`Individual` is returned
-3. The ``chrom`` th chromosome of the returned individual is not equal to the ``chrom`` th chromosome of ``p``
-4. All other chromosomes of the returned individual are exactly the same as the corresponding chromosome of ``p``
++++++++++++++++
+1. ``args.individual``/``args.chrom`` are not changed
+2. Returns a different (by identity and by value) :class:`individual.Individual`
+3. Every gene in the mutated chromosome comes from ``args.chars``
+4. Every other chromosome is unchanged
 
-swapmut(p, chrom)
-------------------
+``swapmut(args)`` / ``revmut(args)`` / ``shufflemut(args)``
+----------------------------------------------------------------
 
 Preconditions
 +++++++++++++
-1. ``p`` is an instance of :class:`Individual`
-2. ``chrom`` is an integer
-3. Exactly one of the following two conditions are satisfied:
-	a. 0 <= ``chrom`` <= ``len(p.chromosomes)``
-	b. ``len(self.chromosomes)*-1`` >= ``index`` >= -1
+1. ``args.p`` is an :class:`individual.Individual`
+2. ``args.chrom`` is a valid chromosome index
 
 Postconditions
-++++++++++++++
-1. The inputs are unchaged
-2. An instance of :class:`Individual` is returned
-3. All values in the ``chrom`` th chromosome of ``p`` are present in the ``chrom`` th chromosome of the output individual
-4. The ``chrom`` th chromosomes of the output individual and ``p`` are not equal
-5. There are exactly two genes in the ``chrom`` th chromome of ``p`` and the returned individual, whose values differ
++++++++++++++++
+1. ``args.p``/``args.chrom`` are not changed
+2. Returns an :class:`individual.Individual` whose ``args.chrom``\\ th chromosome contains the same genes as ``args.p``'s, in a different order (or, for ``shufflemut``/``swapmut``, differing in at least the genes that were swapped/shuffled)
 
-revmut(p, chrom)
------------------
+GA.py
+======
+
+``runGA(args)``
+-------------------
 
 Preconditions
 +++++++++++++
-1. ``p`` is an instance of :class:`Individual`
-2. ``chrom`` is an integer
-3. Exactly one of the following two conditions are satisfied:
-	a. 0 <= ``chrom`` <= ``len(p.chromosomes)``
-	b. ``len(self.chromosomes)*-1`` >= ``index`` >= -1
+1. ``sanity.sanity(args)`` passes
+2. ``args.maxGens > 0``
 
 Postconditions
-++++++++++++++
-1. The inputs are unchaged
-2. An instance of :class:`Individual` is returned
-3. All values in the ``chrom`` th chromosome of ``p`` are present in the ```chrom`` th chromosome of the output individual
-4. The ``chrom`` th chromosomes of the output individual and ``p`` are not equal
++++++++++++++++
+1. ``args`` is not changed
+2. The returned fittest score is ``>= args.targetscore``, or the returned generation count is ``>= args.maxGens``
+3. The returned fittest individual is an :class:`individual.Individual`
 
-shufflemut(p, chrom)
---------------------
+.. warning::
 
-		post[p, chrom]:
-			__old__.p == p
-			__old__.chrom == chrom
-			isinstance(__return__, Individual)
-			__return__.chromosomes[chrom] != p.chromosomes[chrom]
-			forall(p.chromosomes[chrom], lambda e: e in __return__.chromosomes[chrom])
-			forall(__return__.chromosomes[chrom], lambda e: e in p.chromosomes[chrom])
-
-Preconditions
-+++++++++++++
-1. ``p`` is an instance of :class:`Individual`
-2. ``chrom`` is an integer
-3. Exactly one of the following two conditions are satisfied:
-	a. 0 <= ``chrom`` <= ``len(p.chromosomes)``
-	b. ``len(self.chromosomes)*-1`` >= ``index`` >= -1
-
-Postconditions
-++++++++++++++
-1. The inputs are unchaged
-2. An instance of :class:`Individual` is returned
-3. All values in the ``chrom`` th chromosome of ``p`` are present in the ```chrom`` th chromosome of the output individual
-4. The ``chrom`` th chromosomes of the output individual and ``p`` are not equal
-5. The length of the ``chrom`` th chromosome of the returned individual is exactly equal to the length of the ``chrom`` th chromosome of ``p``
+    The first precondition, ``sanity.sanity(args)``, can never pass: no ``sanity``
+    module exists anywhere in this repository, so evaluating this precondition raises
+    ``ImportError``/``ModuleNotFoundError`` rather than returning ``True`` or ``False``.
+    Combined with the runtime bug described in :doc:`GA.py`, ``runGA`` cannot currently
+    be run to completion even with ``__testmode__`` off. See the top-level README's
+    Known Issues.
