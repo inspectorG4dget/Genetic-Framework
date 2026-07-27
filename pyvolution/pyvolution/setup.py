@@ -19,6 +19,9 @@ setup(
 	author = 'Ashwin Panchapakesan',
 	author_email = 'ashwin.panchapakesan@gmail.com',
 	url = 'https://github.com/inspectorG4dget/Genetic-Framework',
+	project_urls = {
+		'Documentation': 'https://pyvolution.readthedocs.io/',
+	},
 	packages = ["pyvolution"],
 	include_package_data = True,
 	install_requires = requires,
