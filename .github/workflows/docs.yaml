@@ -1,0 +1,41 @@
+name: Documentation
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install documentation dependencies
+        run: pip install -r pyvolution/Documentation/requirements.txt
+
+      - name: Sync docs version from setup.py
+        run: python pyvolution/Documentation/sync_version.py
+
+      - name: Build HTML docs
+        run: sphinx-build -b html pyvolution/Documentation pyvolution/Documentation/_build/html
+
+      # Only runs on push (not pull_request) so forked-repo PRs never see these secrets.
+      # RTD_WEBHOOK_URL / RTD_WEBHOOK_TOKEN come from the RTD project's
+      # Admin > Integrations > "Generic API incoming webhook" page.
+      # No `branches` field: this project only has one active RTD version
+      # ("latest", tracking the default branch), so we just always trigger it
+      # rather than risk a branch-name mismatch silently building nothing.
+      - name: Trigger Read the Docs build
+        if: github.event_name == 'push'
+        run: |
+          curl -fsSL -X POST \
+            -d "token=${{ secrets.RTD_WEBHOOK_TOKEN }}" \
+            "${{ secrets.RTD_WEBHOOK_URL }}"
