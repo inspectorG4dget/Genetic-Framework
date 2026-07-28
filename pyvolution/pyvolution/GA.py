@@ -47,7 +47,7 @@ def runGA(args):
 	pop = args.genfunc(args.genparams)
 	SCORES = args.SCORES
 
-	scoreme = [p for p in pop in p not in SCORES]
+	scoreme = [p for p in pop if p not in SCORES]
 	scoreparams = []
 	for s in scoreme:
 		n = argparse.Namespace()
@@ -115,7 +115,7 @@ def runGA(args):
 			newpop.append(c)
 			if len(newpop) == len(pop): break
 
-		scoreme = [p for p in newpop in p not in SCORES]
+		scoreme = [p for p in newpop if p not in SCORES]
 		scoreparams = []
 		for s in scoreme:
 			n = argparse.Namespace()
