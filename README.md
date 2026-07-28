@@ -32,11 +32,6 @@ Pyvolution requires **Python 3.7+**.
    resolve correctly when `pyvolution/pyvolution` itself — not its parent — is on the
    import path. See [Known Issues](#known-issues).
 
-   `pyvolution/pyvolution/setup.py` is the current, authoritative package
-   descriptor (version 2.0, Python 3). The `setup.py` one directory up, at
-   `pyvolution/setup.py`, is stale leftover from an earlier Python 2 layout and
-   should be ignored (tracked for removal separately).
-
 See [Required Installs](pyvolution/Documentation/Required%20Installs.rst) for more detail.
 
 ## Overview
@@ -74,8 +69,6 @@ Full per-module API reference is in the [Sphinx documentation](pyvolution/Docume
   the `visualization.py` module it depended on for drawing the tour has been removed.
   `fitness.scoreTSP`, `crossover.injectionco`, and the `berlin52.txt` city-coordinate
   data file still exist as working code/data, but nothing currently wires them together.
-- **The outer `pyvolution/setup.py` is stale** (Python 2.7, `packages=["Genetic"]`) and
-  should not be used; see the note in [Installation](#installation).
 
 ## License
 
