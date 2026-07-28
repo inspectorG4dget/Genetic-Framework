@@ -59,11 +59,10 @@ Full per-module API reference is in the [Sphinx documentation](pyvolution/Docume
 
 ## Known Issues
 
-- **`GA.runGA` currently crashes at runtime.** It contains an invalid expression
-  (`[p for p in pop in p not in SCORES]`) that raises `NameError` as soon as it's
-  called, and it also does `import sanity` / calls `sanity.sanity(args)` for a
-  `sanity` module that does not exist anywhere in this repository. There is currently
-  no way to run a full evolution end-to-end.
+- **`GA.py` fails to import: `from tqdm.patch import tqdm, print`.** `tqdm.patch` is
+  not a submodule of the currently-installed `tqdm` (4.69.1), so this raises
+  `ModuleNotFoundError` before any evolution logic can run. There is currently no way
+  to run a full evolution end-to-end.
 - **The TSP example is incomplete.** `settings.py`'s `getTSPSettings` (the settings
   needed to run the Traveling Salesman Problem example) is entirely commented out, and
   the `visualization.py` module it depended on for drawing the tour has been removed.
